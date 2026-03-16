@@ -1,0 +1,26 @@
+{
+  "generatedAt": "2026-03-16T07:41:00+08:00",
+  "source": "openclaw-config + sessions_list (real)",
+  "summary": {
+    "totalAgents": 11,
+    "activeAgents": 1,
+    "doneAgents": 10,
+    "todoItems": 0,
+    "totalDurationSec": 0,
+    "totalTokens": 99203
+  },
+  "agents": [
+    {"id":"main","name":"小麦","department":"尚书省","status":"active","currentTask":"与主人会话中","todoCount":0,"recentDone":"-","durationSec":0,"tokenUsed":99203,"tasks":[{"title":"当前会话","status":"active","durationSec":0,"tokens":99203}]},
+    {"id":"product","name":"中书省","department":"产品","status":"done","currentTask":"（空闲）","todoCount":0,"recentDone":"-","durationSec":0,"tokenUsed":0,"tasks":[]},
+    {"id":"reviewer","name":"门下省","department":"审核","status":"done","currentTask":"（空闲）","todoCount":0,"recentDone":"-","durationSec":0,"tokenUsed":0,"tasks":[]},
+    {"id":"developer","name":"开发工程师","department":"研发","status":"done","currentTask":"（空闲）","todoCount":0,"recentDone":"-","durationSec":0,"tokenUsed":0,"tasks":[]},
+    {"id":"tester","name":"测试工程师","department":"测试","status":"done","currentTask":"（空闲）","todoCount":0,"recentDone":"-","durationSec":0,"tokenUsed":0,"tasks":[]},
+    {"id":"devops","name":"运维工程师","department":"运维","status":"done","currentTask":"（空闲）","todoCount":0,"recentDone":"-","durationSec":0,"tokenUsed":0,"tasks":[]},
+    {"id":"copywriter","name":"文案","department":"运营","status":"done","currentTask":"（空闲）","todoCount":0,"recentDone":"-","durationSec":0,"tokenUsed":0,"tasks":[]},
+    {"id":"video","name":"视频","department":"运营","status":"done","currentTask":"（空闲）","todoCount":0,"recentDone":"-","durationSec":0,"tokenUsed":0,"tasks":[]},
+    {"id":"operator","name":"运营","department":"运营","status":"done","currentTask":"（空闲）","todoCount":0,"recentDone":"-","durationSec":0,"tokenUsed":0,"tasks":[]},
+    {"id":"analyst","name":"数据分析师","department":"职能","status":"done","currentTask":"（空闲）","todoCount":0,"recentDone":"-","durationSec":0,"tokenUsed":0,"tasks":[]},
+    {"id":"assistant","name":"助手","department":"职能","status":"done","currentTask":"（空闲）","todoCount":0,"recentDone":"-","durationSec":0,"tokenUsed":0,"tasks":[]}
+  ],
+  "taskBoard": {"todo": [], "doing": [], "done": []}
+}
