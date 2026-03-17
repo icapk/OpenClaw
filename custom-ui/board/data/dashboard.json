@@ -1,26 +1,204 @@
 {
-  "generatedAt": "2026-03-16T07:41:00+08:00",
-  "source": "openclaw-config + sessions_list (real)",
+  "generatedAt": "2026-03-17T02:37:31.112Z",
+  "source": "tasks/in_progress realtime aggregation",
   "summary": {
     "totalAgents": 11,
-    "activeAgents": 1,
-    "doneAgents": 10,
-    "todoItems": 0,
+    "activeAgents": 4,
+    "doneAgents": 7,
+    "todoItems": 4,
     "totalDurationSec": 0,
-    "totalTokens": 99203
+    "totalTokens": 0
   },
   "agents": [
-    {"id":"main","name":"小麦","department":"尚书省","status":"active","currentTask":"与主人会话中","todoCount":0,"recentDone":"-","durationSec":0,"tokenUsed":99203,"tasks":[{"title":"当前会话","status":"active","durationSec":0,"tokens":99203}]},
-    {"id":"product","name":"中书省","department":"产品","status":"done","currentTask":"（空闲）","todoCount":0,"recentDone":"-","durationSec":0,"tokenUsed":0,"tasks":[]},
-    {"id":"reviewer","name":"门下省","department":"审核","status":"done","currentTask":"（空闲）","todoCount":0,"recentDone":"-","durationSec":0,"tokenUsed":0,"tasks":[]},
-    {"id":"developer","name":"开发工程师","department":"研发","status":"done","currentTask":"（空闲）","todoCount":0,"recentDone":"-","durationSec":0,"tokenUsed":0,"tasks":[]},
-    {"id":"tester","name":"测试工程师","department":"测试","status":"done","currentTask":"（空闲）","todoCount":0,"recentDone":"-","durationSec":0,"tokenUsed":0,"tasks":[]},
-    {"id":"devops","name":"运维工程师","department":"运维","status":"done","currentTask":"（空闲）","todoCount":0,"recentDone":"-","durationSec":0,"tokenUsed":0,"tasks":[]},
-    {"id":"copywriter","name":"文案","department":"运营","status":"done","currentTask":"（空闲）","todoCount":0,"recentDone":"-","durationSec":0,"tokenUsed":0,"tasks":[]},
-    {"id":"video","name":"视频","department":"运营","status":"done","currentTask":"（空闲）","todoCount":0,"recentDone":"-","durationSec":0,"tokenUsed":0,"tasks":[]},
-    {"id":"operator","name":"运营","department":"运营","status":"done","currentTask":"（空闲）","todoCount":0,"recentDone":"-","durationSec":0,"tokenUsed":0,"tasks":[]},
-    {"id":"analyst","name":"数据分析师","department":"职能","status":"done","currentTask":"（空闲）","todoCount":0,"recentDone":"-","durationSec":0,"tokenUsed":0,"tasks":[]},
-    {"id":"assistant","name":"助手","department":"职能","status":"done","currentTask":"（空闲）","todoCount":0,"recentDone":"-","durationSec":0,"tokenUsed":0,"tasks":[]}
+    {
+      "id": "main",
+      "name": "小麦",
+      "department": "尚书省",
+      "status": "done",
+      "currentTask": "（空闲）",
+      "todoCount": 0,
+      "recentDone": "-",
+      "durationSec": 0,
+      "tokenUsed": 0,
+      "tasks": []
+    },
+    {
+      "id": "product",
+      "name": "产品经理",
+      "department": "产品",
+      "status": "active",
+      "currentTask": "两项比赛新增项目机会评估_并行派发",
+      "todoCount": 1,
+      "recentDone": "-",
+      "durationSec": 0,
+      "tokenUsed": 0,
+      "tasks": [
+        {
+          "title": "两项比赛新增项目机会评估_并行派发",
+          "status": "doing",
+          "durationSec": 0,
+          "tokens": 0
+        }
+      ]
+    },
+    {
+      "id": "reviewer",
+      "name": "门下省",
+      "department": "审核",
+      "status": "done",
+      "currentTask": "（空闲）",
+      "todoCount": 0,
+      "recentDone": "-",
+      "durationSec": 0,
+      "tokenUsed": 0,
+      "tasks": []
+    },
+    {
+      "id": "developer",
+      "name": "开发工程师",
+      "department": "研发",
+      "status": "active",
+      "currentTask": "看板P0重构执行",
+      "todoCount": 1,
+      "recentDone": "-",
+      "durationSec": 0,
+      "tokenUsed": 0,
+      "tasks": [
+        {
+          "title": "看板P0重构执行",
+          "status": "doing",
+          "durationSec": 0,
+          "tokens": 0
+        }
+      ]
+    },
+    {
+      "id": "tester",
+      "name": "测试工程师",
+      "department": "测试",
+      "status": "active",
+      "currentTask": "看板P0重构验收",
+      "todoCount": 1,
+      "recentDone": "-",
+      "durationSec": 0,
+      "tokenUsed": 0,
+      "tasks": [
+        {
+          "title": "看板P0重构验收",
+          "status": "doing",
+          "durationSec": 0,
+          "tokens": 0
+        }
+      ]
+    },
+    {
+      "id": "devops",
+      "name": "运维工程师",
+      "department": "运维",
+      "status": "done",
+      "currentTask": "（空闲）",
+      "todoCount": 0,
+      "recentDone": "-",
+      "durationSec": 0,
+      "tokenUsed": 0,
+      "tasks": []
+    },
+    {
+      "id": "copywriter",
+      "name": "文案",
+      "department": "运营",
+      "status": "done",
+      "currentTask": "（空闲）",
+      "todoCount": 0,
+      "recentDone": "-",
+      "durationSec": 0,
+      "tokenUsed": 0,
+      "tasks": []
+    },
+    {
+      "id": "video",
+      "name": "视频",
+      "department": "运营",
+      "status": "done",
+      "currentTask": "（空闲）",
+      "todoCount": 0,
+      "recentDone": "-",
+      "durationSec": 0,
+      "tokenUsed": 0,
+      "tasks": []
+    },
+    {
+      "id": "operator",
+      "name": "运营",
+      "department": "运营",
+      "status": "done",
+      "currentTask": "（空闲）",
+      "todoCount": 0,
+      "recentDone": "-",
+      "durationSec": 0,
+      "tokenUsed": 0,
+      "tasks": []
+    },
+    {
+      "id": "analyst",
+      "name": "数据分析师",
+      "department": "职能",
+      "status": "active",
+      "currentTask": "看板字段映射与对账规则",
+      "todoCount": 1,
+      "recentDone": "-",
+      "durationSec": 0,
+      "tokenUsed": 0,
+      "tasks": [
+        {
+          "title": "看板字段映射与对账规则",
+          "status": "doing",
+          "durationSec": 0,
+          "tokens": 0
+        }
+      ]
+    },
+    {
+      "id": "assistant",
+      "name": "助手",
+      "department": "职能",
+      "status": "done",
+      "currentTask": "（空闲）",
+      "todoCount": 0,
+      "recentDone": "-",
+      "durationSec": 0,
+      "tokenUsed": 0,
+      "tasks": []
+    }
   ],
-  "taskBoard": {"todo": [], "doing": [], "done": []}
+  "taskBoard": {
+    "todo": [],
+    "doing": [
+      {
+        "title": "两项比赛新增项目机会评估_并行派发",
+        "owner": "产品经理",
+        "priority": "P0",
+        "status": "doing"
+      },
+      {
+        "title": "看板P0重构执行",
+        "owner": "开发工程师",
+        "priority": "P0",
+        "status": "doing"
+      },
+      {
+        "title": "看板字段映射与对账规则",
+        "owner": "数据分析师",
+        "priority": "P0",
+        "status": "doing"
+      },
+      {
+        "title": "看板P0重构验收",
+        "owner": "测试工程师",
+        "priority": "P0",
+        "status": "doing"
+      }
+    ],
+    "done": []
+  }
 }
