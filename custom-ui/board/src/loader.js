@@ -3,8 +3,10 @@
   const VIEW_ID = 'oc-board-native-view';
   const STYLE_ID = 'oc-board-native-style';
   const BOARD_URL = '/board';
+  const BOARD_NATIVE_SUBPATHS = new Set(['overview', 'sessions', 'agents', 'config', 'logs']);
+  const LAST_BOARD_URL_KEY = 'oc-office-last-board-url';
   const NAV_INTENT_KEY = 'oc-office-nav-intent';
-  const BOARD_RESTORE_WINDOW_MS = 4000;
+  const BOARD_RESTORE_WINDOW_MS = 20000;
   const rawReplaceState = history.replaceState.bind(history);
   const rawPushState = history.pushState.bind(history);
 
@@ -27,16 +29,56 @@
     return intent?.mode === 'board' && Date.now() - Number(intent.ts || 0) <= BOARD_RESTORE_WINDOW_MS;
   }
 
+  const isBoardPathLike = (pathname = location.pathname) => pathname === '/board' || pathname.startsWith('/board/');
+  const isBoardChatPath = (pathname = location.pathname) => pathname === '/board/chat' || pathname.startsWith('/board/chat/');
+  const isBoardMode = (pathname = location.pathname) => isBoardPathLike(pathname) && !isBoardChatPath(pathname);
+  const isBoardDashboardRoot = (pathname = location.pathname) => pathname === BOARD_URL;
+
+  function rememberBoardUrl(url = `${location.pathname}${location.search}${location.hash}`) {
+    try {
+      const u = new URL(String(url), location.origin);
+      if (u.origin !== location.origin || !isBoardMode(u.pathname)) return;
+      sessionStorage.setItem(LAST_BOARD_URL_KEY, `${u.pathname}${u.search}${u.hash}`);
+    } catch {}
+  }
+
+  function getLastBoardUrl() {
+    if (isBoardMode(location.pathname)) {
+      const current = `${location.pathname}${location.search}${location.hash}`;
+      rememberBoardUrl(current);
+      return current;
+    }
+    try {
+      const saved = sessionStorage.getItem(LAST_BOARD_URL_KEY);
+      if (!saved) return BOARD_URL;
+      const u = new URL(saved, location.origin);
+      return isBoardMode(u.pathname) ? `${u.pathname}${u.search}${u.hash}` : BOARD_URL;
+    } catch {
+      return BOARD_URL;
+    }
+  }
+
+  function isBoardTargetUrl(url = '') {
+    try {
+      const u = new URL(String(url), location.origin);
+      return u.origin === location.origin && isBoardMode(u.pathname);
+    } catch {
+      return false;
+    }
+  }
+
   function normalizeHistoryUrl(url) {
     if (!url) return url;
     try {
       const u = new URL(String(url), location.origin);
       if (u.origin !== location.origin) return url;
-      if (shouldPinBoardRoute() && (u.pathname === '/chat' || u.pathname.startsWith('/chat/'))) {
-        return '/board';
+      if (shouldPinBoardRoute() && (u.pathname === '/chat' || u.pathname.startsWith('/chat/')) && !u.search && !u.hash) {
+        return getLastBoardUrl();
       }
-      if (u.pathname === '/board' || u.pathname.startsWith('/board/')) {
-        return '/board';
+      if (isBoardMode(u.pathname)) {
+        const next = `${u.pathname}${u.search}${u.hash}`;
+        rememberBoardUrl(next);
+        return next;
       }
       return `${u.pathname}${u.search}${u.hash}`;
     } catch {
@@ -57,50 +99,46 @@
     return u.pathname === '/chat' && u.searchParams.get('panel') === 'board';
   };
 
-  const isBoardPathLike = (pathname = location.pathname) => pathname === '/board' || pathname.startsWith('/board/');
-  const isBoardMode = () => isBoardPathLike(location.pathname);
-
   function normalizeBoardRoute() {
     // 兼容旧链接：/chat?panel=board -> /board
     if (isLegacyBoardUrl()) {
       setNavIntent('board');
-      location.replace('/board');
-      return true;
-    }
-
-    // 修正错误链路：/board/chat?session=main -> /chat?session=main
-    if (location.pathname === '/board/chat' || location.pathname.startsWith('/board/chat/')) {
-      setNavIntent('chat');
-      location.replace('/chat?session=main');
-      return true;
-    }
-
-    // /board 仅看板，禁止其它 /board/* 视图（除了上面的 /board/chat 已被转正）
-    if (location.pathname !== '/board' && isBoardPathLike(location.pathname)) {
-      setNavIntent('board');
       history.replaceState(history.state, '', '/board');
+      rememberBoardUrl('/board');
       return true;
     }
 
-    // /board 必须保持纯净，避免刷新后带着旧 query/hash 回退到错误链路
-    if (location.pathname === '/board' && (location.search || location.hash)) {
-      setNavIntent('board');
-      history.replaceState(history.state, '', '/board');
+    // 修正错误链路：/board/chat?session=main
+    // - 若最近意图是进入看板：拉回 /board（避免被主应用错误拼接到 /board/chat）
+    // - 其余情况按聊天意图回主聊天链路
+    if (isBoardChatPath(location.pathname)) {
+      const intent = getNavIntent();
+      const fresh = Date.now() - Number(intent?.ts || 0) <= BOARD_RESTORE_WINDOW_MS;
+      if (intent?.mode === 'chat' && fresh) {
+        history.replaceState(history.state, '', '/chat?session=main');
+      } else {
+        history.replaceState(history.state, '', getLastBoardUrl());
+      }
       return true;
     }
+
+    // 保留 /board/* 子路由能力，仅约束错误的 /board/chat* 回到主聊天链路。
 
     // 主应用若把 /board 当成未知路由回退到 /chat，按最近看板意图拉回 /board
     const intent = getNavIntent();
     const shouldRestoreBoard = location.pathname === '/chat'
+      && !location.search
+      && !location.hash
       && intent?.mode === 'board'
       && Date.now() - Number(intent.ts || 0) <= BOARD_RESTORE_WINDOW_MS;
     if (shouldRestoreBoard) {
-      history.replaceState(history.state, '', '/board');
+      history.replaceState(history.state, '', getLastBoardUrl());
       return true;
     }
 
-    if (location.pathname === '/board') {
+    if (isBoardMode(location.pathname)) {
       setNavIntent('board');
+      rememberBoardUrl();
     }
 
     return false;
@@ -150,7 +188,7 @@
   function syncActive() {
     const boardLink = document.getElementById(LINK_ID);
     const chatLink = findChatLink();
-    const onBoard = isBoardMode();
+    const onBoard = isBoardMode(location.pathname);
     const onChat = location.pathname === '/chat';
 
     if (boardLink) {
@@ -172,7 +210,8 @@
   }
 
   function bindHardNavigation(link, targetUrl) {
-    if (!link || link.dataset.ocNavBound === '1') return;
+    if (!link || link.__ocNavBound === true) return;
+    link.__ocNavBound = true;
     link.dataset.ocNavBound = '1';
     link.addEventListener('click', (ev) => {
       if (!ev.isTrusted) return;
@@ -180,12 +219,82 @@
       if (withModifier) return;
       ev.preventDefault();
       ev.stopPropagation();
-      setNavIntent(targetUrl === BOARD_URL ? 'board' : 'chat');
-      if (location.pathname + location.search !== targetUrl) location.assign(targetUrl);
+      const nextMode = isBoardTargetUrl(targetUrl) ? 'board' : 'chat';
+      setNavIntent(nextMode);
+      if (nextMode === 'board') rememberBoardUrl(targetUrl);
+      if (location.pathname + location.search !== targetUrl) {
+        location.assign(targetUrl);
+      }
     }, true);
   }
 
+  function normalizeChatHref(raw = '') {
+    const href = String(raw || '').trim();
+    if (!href) return null;
+    if (href === 'chat' || href === './chat' || href === '../chat' || href === '/chat' || href === '/chat?session=main') return '/chat?session=main';
+    if (href === '/board/chat' || href.startsWith('/board/chat?') || href.startsWith('/board/chat/')) return '/chat?session=main';
+    try {
+      const u = new URL(href, location.origin);
+      if (u.origin !== location.origin) return null;
+      if (u.pathname === '/chat' || u.pathname.endsWith('/chat')) return '/chat?session=main';
+      if (u.pathname === '/board/chat' || u.pathname.startsWith('/board/chat/')) return '/chat?session=main';
+    } catch {}
+    return null;
+  }
+
+  function sanitizeChatLinks() {
+    const links = Array.from(document.querySelectorAll('a[href]'));
+    for (const a of links) {
+      const normalized = normalizeChatHref(a.getAttribute('href') || a.href || '');
+      if (!normalized) continue;
+      a.setAttribute('href', normalized);
+      bindHardNavigation(a, normalized);
+    }
+  }
+
+  function normalizeBoardHref(raw = '') {
+    const href = String(raw || '').trim();
+    if (!href) return null;
+    try {
+      const u = new URL(href, location.origin);
+      if (u.origin !== location.origin) return null;
+      if (isBoardMode(u.pathname)) return `${u.pathname}${u.search}${u.hash}`;
+      const bare = u.pathname.replace(/^\/+/, '');
+      if (!isBoardMode(location.pathname) || !BOARD_NATIVE_SUBPATHS.has(bare)) return null;
+      return `${BOARD_URL}/${bare}${u.search}${u.hash}`;
+    } catch {
+      const bare = href.replace(/^\/+/, '');
+      if (!isBoardMode(location.pathname) || !BOARD_NATIVE_SUBPATHS.has(bare)) return null;
+      return `${BOARD_URL}/${bare}`;
+    }
+  }
+
+  function shouldKeepBoardRootLink(a) {
+    if (!a) return false;
+    const href = (a.getAttribute('href') || '').trim();
+    if (!href) return false;
+    try {
+      const u = new URL(href, location.origin);
+      return u.origin === location.origin && u.pathname === BOARD_URL;
+    } catch {
+      return href === BOARD_URL;
+    }
+  }
+
+  function sanitizeBoardLinks() {
+    const links = Array.from(document.querySelectorAll('a[href]'));
+    for (const a of links) {
+      if (a.id === LINK_ID || shouldKeepBoardRootLink(a)) continue;
+      const normalized = normalizeBoardHref(a.getAttribute('href') || a.href || '');
+      if (!normalized) continue;
+      a.setAttribute('href', normalized);
+      bindHardNavigation(a, normalized);
+    }
+  }
+
   function ensureLink() {
+    sanitizeChatLinks();
+    sanitizeBoardLinks();
     const chatLink = findChatLink();
     if (!chatLink) return;
 
@@ -197,6 +306,9 @@
     if (!boardLink) {
       boardLink = chatLink.cloneNode(true);
       boardLink.id = LINK_ID;
+      // cloneNode 会复制 chatLink 的 data-oc-nav-bound=1，导致看板链接无法绑定点击接管
+      boardLink.removeAttribute('data-oc-nav-bound');
+      delete boardLink.dataset.ocNavBound;
       boardLink.href = BOARD_URL;
       boardLink.title = '看板';
       boardLink.setAttribute('aria-label', '看板');
@@ -239,10 +351,11 @@
   }
 
   async function renderBoardIfNeeded() {
-    if (!isBoardMode()) return;
+    if (!isBoardDashboardRoot(location.pathname)) return;
     const main = document.querySelector('main');
     if (!main) return;
     ensureStyle();
+    rememberBoardUrl();
 
     try {
       const data = await loadBoardData();
@@ -262,7 +375,7 @@
           </article>`).join('')}</div></section>`).join('');
 
       main.innerHTML = `<div id="${VIEW_ID}">
-        <div class="head"><h2 style="margin:0">看板</h2><button id="oc-board-refresh" style="padding:8px 12px;border-radius:8px;border:1px solid #e5e7eb;cursor:pointer;">刷新</button></div>
+        <div class="head"><div><h2 style="margin:0">看板</h2><div style="margin-top:4px;color:#64748b;font-size:12px">当前页面：总览</div></div><button id="oc-board-refresh" style="padding:8px 12px;border-radius:8px;border:1px solid #e5e7eb;cursor:pointer;">刷新</button></div>
         <section class="summary">${stat('总Agent', s.totalAgents ?? 0)}${stat('在线', s.activeAgents ?? 0)}${stat('离线', s.doneAgents ?? 0)}${stat('待办', s.todoItems ?? 0)}${stat('总耗时', fmtSec(s.totalDurationSec ?? 0))}${stat('总Token', s.totalTokens ?? 0)}</section>
         ${deptHtml}
       </div>`;
