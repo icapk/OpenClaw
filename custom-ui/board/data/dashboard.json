@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-03-17T02:37:31.112Z",
-  "source": "tasks/in_progress realtime aggregation",
+  "generatedAt": "2026-03-18T23:39:47.153Z",
+  "source": "tasks/in_progress realtime aggregation (+completed fallback for PM/Tester)",
   "summary": {
     "totalAgents": 11,
-    "activeAgents": 4,
-    "doneAgents": 7,
-    "todoItems": 4,
+    "activeAgents": 2,
+    "doneAgents": 9,
+    "todoItems": 2,
     "totalDurationSec": 0,
     "totalTokens": 0
   },
@@ -57,34 +57,27 @@
       "id": "developer",
       "name": "开发工程师",
       "department": "研发",
-      "status": "active",
-      "currentTask": "看板P0重构执行",
-      "todoCount": 1,
+      "status": "done",
+      "currentTask": "（空闲）",
+      "todoCount": 0,
       "recentDone": "-",
       "durationSec": 0,
       "tokenUsed": 0,
-      "tasks": [
-        {
-          "title": "看板P0重构执行",
-          "status": "doing",
-          "durationSec": 0,
-          "tokens": 0
-        }
-      ]
+      "tasks": []
     },
     {
       "id": "tester",
       "name": "测试工程师",
       "department": "测试",
       "status": "active",
-      "currentTask": "看板P0重构验收",
+      "currentTask": "看板新功能全面测试",
       "todoCount": 1,
       "recentDone": "-",
       "durationSec": 0,
       "tokenUsed": 0,
       "tasks": [
         {
-          "title": "看板P0重构验收",
+          "title": "看板新功能全面测试",
           "status": "doing",
           "durationSec": 0,
           "tokens": 0
@@ -143,20 +136,13 @@
       "id": "analyst",
       "name": "数据分析师",
       "department": "职能",
-      "status": "active",
-      "currentTask": "看板字段映射与对账规则",
-      "todoCount": 1,
+      "status": "done",
+      "currentTask": "（空闲）",
+      "todoCount": 0,
       "recentDone": "-",
       "durationSec": 0,
       "tokenUsed": 0,
-      "tasks": [
-        {
-          "title": "看板字段映射与对账规则",
-          "status": "doing",
-          "durationSec": 0,
-          "tokens": 0
-        }
-      ]
+      "tasks": []
     },
     {
       "id": "assistant",
@@ -181,19 +167,7 @@
         "status": "doing"
       },
       {
-        "title": "看板P0重构执行",
-        "owner": "开发工程师",
-        "priority": "P0",
-        "status": "doing"
-      },
-      {
-        "title": "看板字段映射与对账规则",
-        "owner": "数据分析师",
-        "priority": "P0",
-        "status": "doing"
-      },
-      {
-        "title": "看板P0重构验收",
+        "title": "看板新功能全面测试",
         "owner": "测试工程师",
         "priority": "P0",
         "status": "doing"
