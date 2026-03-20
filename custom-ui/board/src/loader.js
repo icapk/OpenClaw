@@ -3,7 +3,7 @@
   const VIEW_ID = 'oc-board-native-view';
   const STYLE_ID = 'oc-board-native-style';
   const BOARD_URL = '/board';
-  const BOARD_NATIVE_SUBPATHS = new Set(['overview', 'sessions', 'agents', 'config', 'logs']);
+  const BOARD_NATIVE_SUBPATHS = new Set(['overview', 'sessions', 'agents', 'skills', 'nodes', 'config', 'debug', 'logs']);
   const LAST_BOARD_URL_KEY = 'oc-office-last-board-url';
   const NAV_INTENT_KEY = 'oc-office-nav-intent';
   const BOARD_RESTORE_WINDOW_MS = 20000;

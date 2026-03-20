@@ -45,7 +45,7 @@ echo "OK route isolation checks"
 
 echo "[gate] 3.2/5 assert native /board/* pages stay reachable"
 grep -q "if (!isBoardDashboardRoot(location.pathname)) return;" "$LOADER"
-grep -q "const BOARD_NATIVE_SUBPATHS = new Set(\\['overview', 'sessions', 'agents', 'config', 'logs'\\]);" "$LOADER"
+grep -q "const BOARD_NATIVE_SUBPATHS = new Set(\\['overview', 'sessions', 'agents', 'skills', 'nodes', 'config', 'debug', 'logs'\\]);" "$LOADER"
 grep -q 'return `${BOARD_URL}/${bare}${u.search}${u.hash}`;' "$LOADER"
 grep -q 'return `${BOARD_URL}/${bare}`;' "$LOADER"
 grep -q "if (a.id === LINK_ID || shouldKeepBoardRootLink(a)) continue;" "$LOADER"
