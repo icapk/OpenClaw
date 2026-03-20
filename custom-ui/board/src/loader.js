@@ -158,15 +158,30 @@
       html[data-oc-chat-mode="1"] #${LINK_ID} { background:transparent !important; }
       #${VIEW_ID}{padding:16px}
       #${VIEW_ID} .head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-      #${VIEW_ID} .summary{display:grid;grid-template-columns:repeat(6,minmax(120px,1fr));gap:10px;margin-bottom:16px}
+      #${VIEW_ID} .summary{display:grid;grid-template-columns:repeat(6,minmax(110px,1fr));gap:10px;margin-bottom:14px}
       #${VIEW_ID} .stat{border:1px solid #e5e7eb;border-radius:10px;padding:10px;background:#fff}
       #${VIEW_ID} .stat b{display:block;font-size:22px;margin-top:4px}
-      #${VIEW_ID} .dept{margin-bottom:16px}
-      #${VIEW_ID} .dept h3{margin:0 0 8px}
-      #${VIEW_ID} .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
-      #${VIEW_ID} .card{border:1px solid #e5e7eb;border-radius:10px;padding:10px;background:#fff}
-      #${VIEW_ID} .badge{font-size:12px;border-radius:999px;padding:2px 8px;color:#fff;margin-left:6px}
-      #${VIEW_ID} .active{background:#16a34a} #${VIEW_ID} .done{background:#64748b}
+      #${VIEW_ID} .office-wrap{display:grid;grid-template-columns:2.2fr 1fr;gap:12px}
+      #${VIEW_ID} .office{border:1px solid #dbe2ea;border-radius:14px;background:linear-gradient(180deg,#f7fafc,#eef4fa);padding:14px;min-height:420px;position:relative;overflow:hidden}
+      #${VIEW_ID} .zones{display:grid;grid-template-columns:2fr 1fr;grid-template-rows:1fr 1fr;gap:10px;height:100%}
+      #${VIEW_ID} .zone{border:1px dashed #c8d5e3;border-radius:12px;padding:10px;position:relative;background:rgba(255,255,255,.52)}
+      #${VIEW_ID} .zone h3{font-size:13px;margin:0 0 8px;color:#334155}
+      #${VIEW_ID} .zone.work{grid-row:1 / span 2}
+      #${VIEW_ID} .avatars{display:flex;flex-wrap:wrap;gap:10px;align-content:flex-start}
+      #${VIEW_ID} .avatar{width:120px;min-height:88px;border:1px solid #d7e0ea;border-radius:10px;background:#fff;padding:8px;position:relative}
+      #${VIEW_ID} .avatar .name{font-size:12px;color:#111827;font-weight:600}
+      #${VIEW_ID} .avatar .char{font-size:22px;line-height:1;margin-bottom:6px}
+      #${VIEW_ID} .avatar .state{font-size:11px;color:#64748b}
+      #${VIEW_ID} .task-bubble{position:absolute;top:-10px;left:6px;right:6px;background:#fff7d6;color:#92400e;border:1px solid #facc15;border-radius:999px;padding:2px 7px;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+      #${VIEW_ID} .avatar.working{box-shadow:0 0 0 2px rgba(22,163,74,.25)}
+      #${VIEW_ID} .avatar.idle{opacity:.92}
+      #${VIEW_ID} .avatar.break{opacity:.92}
+      #${VIEW_ID} .timeline{border:1px solid #dbe2ea;border-radius:14px;background:#fff;padding:12px}
+      #${VIEW_ID} .timeline h3{margin:0 0 8px;font-size:13px}
+      #${VIEW_ID} .timeline ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:8px}
+      #${VIEW_ID} .timeline li{font-size:12px;color:#334155}
+      #${VIEW_ID} .muted{font-size:12px;color:#64748b}
+      @media (max-width: 1100px){#${VIEW_ID} .office-wrap{grid-template-columns:1fr}}
     `;
     document.head.appendChild(style);
   }
@@ -360,24 +375,59 @@
     try {
       const data = await loadBoardData();
       const s = data.summary || {};
-      const grouped = {};
-      for (const a of (data.agents || [])) {
-        const d = mapDept(a.department || '');
-        (grouped[d] ||= []).push(a);
-      }
-      const deptHtml = Object.entries(grouped).map(([d, list]) => `
-        <section class="dept"><h3>${d}</h3><div class="grid">${list.map(a => `
-          <article class="card">
-            <div><strong>${a.name || a.id}</strong><span class="badge ${a.status === 'active' ? 'active' : 'done'}">${a.status || 'done'}</span></div>
-            <div>当前任务：${a.currentTask || '（空闲）'}</div>
-            <div>待办：${a.todoCount ?? 0}</div>
-            <div>Token：${a.tokenUsed ?? 0}</div>
-          </article>`).join('')}</div></section>`).join('');
+      const agents = data.agents || [];
+      const byName = new Map(agents.map((a) => [a.name, a]));
+
+      const cast = [
+        { name: '产品经理', icon: '🧠', role: '产品' },
+        { name: '开发工程师', icon: '👨‍💻', role: '开发' },
+        { name: '测试工程师', icon: '🧪', role: '测试' },
+        { name: '小麦', icon: '🧑‍💼', role: '助理' },
+      ].map((p, idx) => {
+        const src = byName.get(p.name) || { status: 'done', currentTask: '（空闲）', todoCount: 0 };
+        const working = src.status === 'active' && src.todoCount > 0;
+        let mode = 'working';
+        if (!working) mode = idx % 2 === 0 ? 'idle' : 'break';
+        return {
+          ...p,
+          mode,
+          task: src.currentTask || '（空闲）',
+          todo: src.todoCount || 0,
+        };
+      });
+
+      const modeLabel = { working: '办公中', idle: '沙发放松', break: '健身充电' };
+      const inWork = cast.filter((a) => a.mode === 'working');
+      const inIdle = cast.filter((a) => a.mode === 'idle');
+      const inBreak = cast.filter((a) => a.mode === 'break');
+
+      const avatarHtml = (list) => list.map((a) => `
+        <article class="avatar ${a.mode}">
+          ${a.mode === 'working' ? `<div class="task-bubble" title="${a.task}">${a.task}</div>` : ''}
+          <div class="char">${a.icon}</div>
+          <div class="name">${a.name}</div>
+          <div class="state">${modeLabel[a.mode]}｜待办 ${a.todo}</div>
+        </article>`).join('') || '<div class="muted">暂无人员</div>';
+
+      const timeline = cast.map((a) => `<li><strong>${a.name}</strong>：${modeLabel[a.mode]}${a.mode === 'working' ? `（${a.task}）` : ''}</li>`).join('');
 
       main.innerHTML = `<div id="${VIEW_ID}">
-        <div class="head"><div><h2 style="margin:0">看板</h2><div style="margin-top:4px;color:#64748b;font-size:12px">当前页面：总览</div></div><button id="oc-board-refresh" style="padding:8px 12px;border-radius:8px;border:1px solid #e5e7eb;cursor:pointer;">刷新</button></div>
+        <div class="head"><div><h2 style="margin:0">办公室看板（Beta）</h2><div style="margin-top:4px;color:#64748b;font-size:12px">PJT-18789-BOARD｜当前页面：总览</div></div><button id="oc-board-refresh" style="padding:8px 12px;border-radius:8px;border:1px solid #e5e7eb;cursor:pointer;">刷新</button></div>
         <section class="summary">${stat('总Agent', s.totalAgents ?? 0)}${stat('在线', s.activeAgents ?? 0)}${stat('离线', s.doneAgents ?? 0)}${stat('待办', s.todoItems ?? 0)}${stat('总耗时', fmtSec(s.totalDurationSec ?? 0))}${stat('总Token', s.totalTokens ?? 0)}</section>
-        ${deptHtml}
+        <div class="office-wrap">
+          <section class="office">
+            <div class="zones">
+              <div class="zone work"><h3>工位区（Working）</h3><div class="avatars">${avatarHtml(inWork)}</div></div>
+              <div class="zone lounge"><h3>沙发区（Idle）</h3><div class="avatars">${avatarHtml(inIdle)}</div></div>
+              <div class="zone gym"><h3>健身区（Break）</h3><div class="avatars">${avatarHtml(inBreak)}</div></div>
+            </div>
+          </section>
+          <aside class="timeline">
+            <h3>动态速览</h3>
+            <ul>${timeline}</ul>
+            <p class="muted" style="margin-top:10px">说明：工作中会显示头顶任务气泡；空闲人员会进入沙发/健身区。</p>
+          </aside>
+        </div>
       </div>`;
       document.getElementById('oc-board-refresh')?.addEventListener('click', renderBoardIfNeeded);
     } catch (e) {
