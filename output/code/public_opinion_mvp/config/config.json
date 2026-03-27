@@ -1,0 +1,21 @@
+{
+  "project": "OpenClaw 舆情作战中台 MVP",
+  "timezone": "Asia/Shanghai",
+  "keywords": ["品牌A", "产品X", "宕机", "泄露", "涨价", "投诉", "维权"],
+  "sentiment": {
+    "negative_words": ["崩溃", "无法", "失败", "愤怒", "差评", "投诉", "维权", "泄露", "宕机", "退款"],
+    "positive_words": ["恢复", "解决", "改进", "点赞", "稳定"]
+  },
+  "thresholds": {
+    "negative_ratio": 0.4,
+    "surge_multiplier": 2.0,
+    "min_mentions_for_alert": 3
+  },
+  "window_minutes": 30,
+  "channels": ["weibo", "douyin", "xiaohongshu", "forum"],
+  "alert": {
+    "mode": "simulate",
+    "message_target": "#ops-war-room",
+    "feishu_doc_enabled": false
+  }
+}

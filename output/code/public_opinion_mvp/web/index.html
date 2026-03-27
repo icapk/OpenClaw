@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>舆情中台 Dashboard v1.0</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; margin: 20px; }
+    .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .card { border: 1px solid #ddd; border-radius: 8px; padding: 12px; background: #fff; }
+    .p1{color:#c00}.p2{color:#c60}.p3{color:#090}
+    table{width:100%; border-collapse: collapse; margin-top:10px}
+    th,td{border:1px solid #e5e5e5;padding:6px;text-align:left;font-size:13px;vertical-align:top}
+    pre{white-space:pre-wrap;background:#f8f8f8;padding:10px}
+    #trendSvg { width: 100%; height: 220px; border: 1px solid #eee; border-radius: 8px; background: #fcfcfc; }
+    .muted { color: #666; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <h1>舆情中台 Dashboard v1.0</h1>
+  <div id="summary" class="grid"></div>
+
+  <h2>事件碎片化优化对比</h2>
+  <div id="frag"></div>
+
+  <h2>提及趋势（10分钟桶）</h2>
+  <svg id="trendSvg" viewBox="0 0 960 220" preserveAspectRatio="none"></svg>
+  <div class="muted" id="trendMeta"></div>
+
+  <h2>告警列表</h2>
+  <div id="alerts"></div>
+
+  <h2>事件与时间线峰值</h2>
+  <div id="events"></div>
+
+  <h2>报告列表</h2>
+  <ul id="reports"></ul>
+
+  <script>
+    function renderTrend(series) {
+      const svg = document.getElementById('trendSvg');
+      if (!series.length) {
+        svg.innerHTML = '<text x="20" y="40">无趋势数据</text>';
+        return;
+      }
+      const maxY = Math.max(...series.map(x => x.count), 1);
+      const W = 960, H = 220, pad = 30;
+      const step = (W - pad * 2) / Math.max(1, series.length - 1);
+      const points = series.map((s, i) => {
+        const x = pad + i * step;
+        const y = H - pad - ((H - pad * 2) * s.count / maxY);
+        return {x, y, ...s};
+      });
+      const line = points.map((p, i) => `${i ? 'L' : 'M'}${p.x},${p.y}`).join(' ');
+      const bars = points.map(p => `<rect x="${p.x - 4}" y="${p.y}" width="8" height="${H - pad - p.y}" fill="#8bbcff"></rect>`).join('');
+      const dots = points.map(p => `<circle cx="${p.x}" cy="${p.y}" r="3" fill="#2a66d9"><title>${p.bucket}: ${p.count}</title></circle>`).join('');
+      svg.innerHTML = `
+        <line x1="${pad}" y1="${H-pad}" x2="${W-pad}" y2="${H-pad}" stroke="#bbb" />
+        <line x1="${pad}" y1="${pad}" x2="${pad}" y2="${H-pad}" stroke="#bbb" />
+        ${bars}
+        <path d="${line}" fill="none" stroke="#2a66d9" stroke-width="2"></path>
+        ${dots}
+      `;
+      document.getElementById('trendMeta').innerText = `桶数: ${series.length}，峰值: ${maxY}`;
+    }
+
+    fetch('./data/dashboard_data.json').then(r => r.json()).then(data => {
+      const s = data.summary || {};
+      const g = data.global_alert || {};
+      const summary = document.getElementById('summary');
+      const cards = [
+        ['总提及', s.total_mentions],
+        ['负向占比', s.negative_ratio],
+        ['风险分', s.risk_score],
+        ['全局告警', g.level || '-']
+      ];
+      summary.innerHTML = cards.map(c => `<div class="card"><b>${c[0]}</b><div>${c[1] ?? '-'}</div></div>`).join('');
+
+      const frag = data.fragmentation_optimization || {};
+      const b = frag.before || {};
+      const a = frag.after || {};
+      document.getElementById('frag').innerHTML = `
+        <div class="grid">
+          <div class="card"><b>优化前事件数</b><div>${b.event_count ?? '-'}</div></div>
+          <div class="card"><b>优化后事件数</b><div>${a.event_count ?? '-'}</div></div>
+          <div class="card"><b>优化前平均每事件条目</b><div>${b.avg_mentions_per_event ?? '-'}</div></div>
+          <div class="card"><b>优化后平均每事件条目</b><div>${a.avg_mentions_per_event ?? '-'}</div></div>
+        </div>
+      `;
+
+      renderTrend(data.trend_series || []);
+
+      const alerts = data.alerts || [];
+      document.getElementById('alerts').innerHTML = `<table><tr><th>ID</th><th>Topic</th><th>Level</th><th>Status</th><th>Mentions</th><th>NegRatio</th></tr>` +
+        alerts.map(a => `<tr><td>${a.alert_id}</td><td>${a.topic}</td><td class="${(a.level||'').toLowerCase()}">${a.level}</td><td>${a.status}</td><td>${a.metrics?.mentions}</td><td>${a.metrics?.negative_ratio}</td></tr>`).join('') + `</table>`;
+
+      const events = data.events || [];
+      document.getElementById('events').innerHTML = `<table><tr><th>ID</th><th>Topic</th><th>Mentions</th><th>Peak</th><th>Turning Points</th><th>Attribution</th></tr>` +
+        events.map(e => `<tr><td>${e.event_id}</td><td>${e.topic}</td><td>${e.mention_count}</td><td>${e.timeline_stats?.peak_bucket} (${e.timeline_stats?.peak_count})</td><td>${(e.timeline_stats?.turning_points||[]).map(t=>t.bucket+':'+t.value).join('<br/>')||'-'}</td><td><pre>${JSON.stringify(e.attribution,null,0)}</pre></td></tr>`).join('') + `</table>`;
+
+      document.getElementById('reports').innerHTML = (data.reports || []).map(r => `<li>${r.name}: <code>${r.path}</code></li>`).join('');
+    }).catch(err => {
+      document.body.insertAdjacentHTML('beforeend', `<pre>加载失败: ${err}</pre>`)
+    });
+  </script>
+</body>
+</html>

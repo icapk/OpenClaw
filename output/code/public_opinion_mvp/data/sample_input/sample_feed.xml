@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+  <channel>
+    <title>Public Opinion Feed</title>
+    <item>
+      <title>品牌A 夜间服务恢复公告</title>
+      <description>官方表示产品X宕机问题已定位，正在逐步恢复。</description>
+      <pubDate>Sun, 15 Mar 2026 13:40:00 GMT</pubDate>
+    </item>
+    <item>
+      <title>用户反馈异常登录持续</title>
+      <description>多名用户表示收到异常验证码，担忧账号安全泄露。</description>
+      <pubDate>Sun, 15 Mar 2026 13:50:00 GMT</pubDate>
+    </item>
+  </channel>
+</rss>

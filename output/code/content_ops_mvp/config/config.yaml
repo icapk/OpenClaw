@@ -1,0 +1,32 @@
+project:
+  name: "OpenClaw 自媒体内容生产工作流 MVP"
+  timezone: "Asia/Shanghai"
+
+channels:
+  wechat:
+    enabled: true
+    account: "公众号名称"
+    publish_time: "09:00"
+    post_type: "long_article"
+  xiaohongshu:
+    enabled: true
+    account: "小红书账号"
+    publish_time: "19:30"
+    post_type: "image_text"
+
+openclaw:
+  # 本地命令模式：可接入 openclaw CLI 或你的消息脚本
+  mode: "local_command" # local_command | message_api
+  command_template: "openclaw message send --channel feishu --target {target} --message \"{text}\""
+  default_target: "运营群"
+
+workflow:
+  topic_sources:
+    - "data/topic_seeds.txt"
+    - "data/trending_signals.csv"
+  default_platform: "wechat"
+  dry_run_publish: true
+
+reporting:
+  metrics_file: "data/feedback_metrics.csv"
+  weekly_report_output: "output/reports"

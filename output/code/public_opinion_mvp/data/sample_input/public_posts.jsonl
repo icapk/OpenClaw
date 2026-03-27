@@ -1,0 +1,16 @@
+{"id":"p001","timestamp":"2026-03-15T18:00:00+08:00","channel":"weibo","author":"u01","text":"品牌A 产品X 晚高峰出现宕机，无法下单，投诉电话打不通"}
+{"id":"p002","timestamp":"2026-03-15T18:05:00+08:00","channel":"forum","author":"u02","text":"产品X 崩溃了，付款失败，差评"}
+{"id":"p003","timestamp":"2026-03-15T18:08:00+08:00","channel":"douyin","author":"u03","text":"品牌A 今天是不是挂了，无法登录"}
+{"id":"p004","timestamp":"2026-03-15T18:10:00+08:00","channel":"xiaohongshu","author":"u04","text":"订单卡住，申请退款，维权群有人吗"}
+{"id":"p005","timestamp":"2026-03-15T18:15:00+08:00","channel":"weibo","author":"u05","text":"产品X 宕机持续30分钟，客服无响应"}
+{"id":"p006","timestamp":"2026-03-15T18:30:00+08:00","channel":"weibo","author":"u06","text":"官方说正在修复，希望尽快恢复"}
+{"id":"p007","timestamp":"2026-03-15T19:10:00+08:00","channel":"forum","author":"u07","text":"听说品牌A 数据泄露？收到异常验证码"}
+{"id":"p008","timestamp":"2026-03-15T19:15:00+08:00","channel":"weibo","author":"u08","text":"数据泄露太吓人了，必须给个解释"}
+{"id":"p009","timestamp":"2026-03-15T19:20:00+08:00","channel":"xiaohongshu","author":"u09","text":"品牌A 泄露事件是真的吗，准备投诉"}
+{"id":"p010","timestamp":"2026-03-15T19:22:00+08:00","channel":"douyin","author":"u10","text":"朋友账号异常登录，怀疑信息泄露"}
+{"id":"p011","timestamp":"2026-03-15T19:25:00+08:00","channel":"forum","author":"u11","text":"产品X 这次不是宕机，是安全问题？愤怒"}
+{"id":"p012","timestamp":"2026-03-15T20:10:00+08:00","channel":"weibo","author":"u12","text":"刚看到品牌A 公告，正在排查并改进"}
+{"id":"p013","timestamp":"2026-03-15T20:30:00+08:00","channel":"douyin","author":"u13","text":"涨价消息又来了，老用户感觉被背刺"}
+{"id":"p014","timestamp":"2026-03-15T20:35:00+08:00","channel":"forum","author":"u14","text":"产品X 涨价还不稳定，差评"}
+{"id":"p015","timestamp":"2026-03-15T20:40:00+08:00","channel":"xiaohongshu","author":"u15","text":"涨价+体验差，准备维权"}
+{"id":"p016","timestamp":"2026-03-15T21:00:00+08:00","channel":"weibo","author":"u16","text":"今天问题太多了，希望官方尽快解决"}

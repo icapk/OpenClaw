@@ -1,0 +1,120 @@
+#!/usr/bin/env python3
+"""超时任务巡检脚本
+
+扫描 tasks/in_progress/*.md，检测最后修改时间超过24小时的任务，
+输出 markdown 报告并在 stdout 打印统计信息。
+"""
+
+from __future__ import annotations
+
+import argparse
+from datetime import datetime, timedelta
+from pathlib import Path
+from typing import List
+
+
+def format_timedelta(delta: timedelta) -> str:
+    total_seconds = int(delta.total_seconds())
+    if total_seconds < 0:
+        total_seconds = 0
+    hours, rem = divmod(total_seconds, 3600)
+    minutes, _ = divmod(rem, 60)
+    return f"{hours}h {minutes}m"
+
+
+def build_report(now: datetime, all_files: List[Path], overdue_files: List[Path], threshold_hours: int) -> str:
+    lines: List[str] = []
+    lines.append(f"# 超时巡检报告（{now.strftime('%Y-%m-%d %H:%M:%S')}）")
+    lines.append("")
+    lines.append("## 巡检规则")
+    lines.append(f"- 扫描目录：`/Users/a1/.openclaw/workspace/tasks/in_progress/*.md`")
+    lines.append(f"- 超时阈值：最后修改时间超过 **{threshold_hours} 小时**")
+    lines.append("")
+    lines.append("## 统计")
+    lines.append(f"- 总任务数：**{len(all_files)}**")
+    lines.append(f"- 超时任务数：**{len(overdue_files)}**")
+    lines.append("")
+
+    if overdue_files:
+        lines.append("## 超时任务明细")
+        lines.append("| 文件名 | 最后修改时间 | 超时时长 |")
+        lines.append("|---|---|---|")
+        for path in sorted(overdue_files, key=lambda p: p.name):
+            mtime = datetime.fromtimestamp(path.stat().st_mtime)
+            overdue_delta = now - mtime
+            lines.append(
+                f"| {path.name} | {mtime.strftime('%Y-%m-%d %H:%M:%S')} | {format_timedelta(overdue_delta)} |"
+            )
+    else:
+        lines.append("## 超时任务明细")
+        lines.append("本次巡检无超时任务。✅")
+
+    lines.append("")
+    lines.append("## 全量任务文件")
+    for path in sorted(all_files, key=lambda p: p.name):
+        lines.append(f"- {path.name}")
+
+    lines.append("")
+    lines.append("---")
+    lines.append("由 `scripts/overdue_audit.py` 自动生成")
+
+    return "\n".join(lines) + "\n"
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description="巡检超时任务并生成 Markdown 报告")
+    parser.add_argument(
+        "--tasks-dir",
+        default="/Users/a1/.openclaw/workspace/tasks/in_progress",
+        help="任务目录（默认：/Users/a1/.openclaw/workspace/tasks/in_progress）",
+    )
+    parser.add_argument(
+        "--report-dir",
+        default="/Users/a1/.openclaw/workspace/output/reports",
+        help="报告输出目录（默认：/Users/a1/.openclaw/workspace/output/reports）",
+    )
+    parser.add_argument(
+        "--threshold-hours",
+        type=int,
+        default=24,
+        help="超时阈值小时数（默认：24）",
+    )
+    args = parser.parse_args()
+
+    now = datetime.now()
+    tasks_dir = Path(args.tasks_dir)
+    report_dir = Path(args.report_dir)
+    report_dir.mkdir(parents=True, exist_ok=True)
+
+    all_files = sorted(tasks_dir.glob("*.md")) if tasks_dir.exists() else []
+    threshold = timedelta(hours=args.threshold_hours)
+
+    overdue_files: List[Path] = []
+    for path in all_files:
+        mtime = datetime.fromtimestamp(path.stat().st_mtime)
+        if now - mtime > threshold:
+            overdue_files.append(path)
+
+    report_name = f"超时巡检_{now.strftime('%Y-%m-%d_%H%M')}.md"
+    report_path = report_dir / report_name
+
+    report_content = build_report(now, all_files, overdue_files, args.threshold_hours)
+    report_path.write_text(report_content, encoding="utf-8")
+
+    # stdout 统计输出
+    print(f"总数: {len(all_files)}")
+    print(f"超时数: {len(overdue_files)}")
+    if all_files:
+        print("文件名:")
+        for path in all_files:
+            mark = " [超时]" if path in overdue_files else ""
+            print(f"- {path.name}{mark}")
+    else:
+        print("文件名: (无)")
+
+    print(f"报告已生成: {report_path}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -33,6 +33,9 @@
   const isBoardChatPath = (pathname = location.pathname) => pathname === '/board/chat' || pathname.startsWith('/board/chat/');
   const isBoardMode = (pathname = location.pathname) => isBoardPathLike(pathname) && !isBoardChatPath(pathname);
   const isBoardDashboardRoot = (pathname = location.pathname) => pathname === BOARD_URL;
+  
+  // 办公室可视化看板路径
+  const isOfficeVisual = (pathname = location.pathname) => pathname === '/board/office-visual';
 
   function rememberBoardUrl(url = `${location.pathname}${location.search}${location.hash}`) {
     try {
@@ -341,6 +344,33 @@
       boardLink.style.marginTop = '4px';
       chatLink.insertAdjacentElement('afterend', boardLink);
     }
+    
+    // 添加办公室可视化看板链接
+    let officeLink = document.getElementById('oc-office-visual-link');
+    if (!officeLink) {
+      officeLink = boardLink.cloneNode(true);
+      officeLink.id = 'oc-office-visual-link';
+      officeLink.removeAttribute('data-oc-nav-bound');
+      delete officeLink.dataset.ocNavBound;
+      officeLink.href = '/board/office-visual';
+      officeLink.title = '办公室可视化看板';
+      officeLink.setAttribute('aria-label', '办公室可视化看板');
+      officeLink.removeAttribute('target');
+      officeLink.removeAttribute('rel');
+      officeLink.removeAttribute('aria-current');
+      officeLink.classList.remove('active');
+
+      const label = Array.from(officeLink.querySelectorAll('*')).find((el) => (el.textContent || '').trim() === '看板');
+      if (label) label.textContent = '办公室';
+
+      const iconWrap = officeLink.querySelector('img,svg')?.parentElement;
+      if (iconWrap) iconWrap.innerHTML = '<span style="font-size:14px;line-height:1">🏢</span>';
+
+      officeLink.style.marginTop = '4px';
+      boardLink.insertAdjacentElement('afterend', officeLink);
+    }
+    bindHardNavigation(officeLink, '/board/office-visual');
+    
     bindHardNavigation(boardLink, '/board');
     syncActive();
   }
@@ -356,7 +386,7 @@
   const stat = (k, v) => `<div class="stat"><span>${k}</span><b>${v}</b></div>`;
 
   async function loadBoardData() {
-    const res = await fetch(`/office/data/dashboard.json?t=${Date.now()}`, { cache: 'no-store' });
+    const res = await fetch(`/custom-ui/board/data/dashboard.json?t=${Date.now()}`, { cache: 'no-store' });
     if (!res.ok) {
       const err = new Error(`dashboard fetch failed: ${res.status}`);
       err.status = res.status;
@@ -366,7 +396,7 @@
   }
 
   async function renderBoardIfNeeded() {
-    if (!isBoardDashboardRoot(location.pathname)) return;
+    if (!isBoardDashboardRoot(location.pathname) && !isOfficeVisual(location.pathname)) return;
     const main = document.querySelector('main');
     if (!main) return;
     ensureStyle();

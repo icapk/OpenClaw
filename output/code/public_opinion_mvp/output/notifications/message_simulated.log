@@ -1,0 +1,1 @@
+[2026-03-16T06:57:48] mode=simulate target=#ops-war-room [舆情告警] level=P2 triggered=True reasons=mention_count_reached,negative_ratio_exceeded total=16 sent=mock result=mock

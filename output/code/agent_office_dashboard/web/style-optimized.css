@@ -1,0 +1,380 @@
+/* Performance optimized styles */
+:root {
+  --bg: #f5f7fb;
+  --card: #ffffff;
+  --text: #1e293b;
+  --muted: #64748b;
+  --primary: #2f6fed;
+  --ok: #16a34a;
+  --warn: #d97706;
+  --line: #dbe3ef;
+  --animation-duration: 0.3s;
+  --transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* { 
+  box-sizing: border-box; 
+  /* Use will-change for better performance */
+  will-change: transform, opacity;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: var(--text);
+  background: linear-gradient(180deg, #eef3ff 0%, var(--bg) 45%);
+  /* Use hardware acceleration */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+.topbar {
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center;
+  padding: 16px 24px; 
+  background: #14213d; 
+  color: #fff;
+  position: sticky; 
+  top: 0;
+  z-index: 100;
+  /* Optimize for frequent updates */
+  contain: layout style paint;
+}
+
+.topbar h1 { 
+  margin: 0; 
+  font-size: 20px;
+  /* Prevent text reflow during animations */
+  contain: content;
+}
+
+button {
+  border: 0; 
+  border-radius: 8px; 
+  padding: 10px 14px;
+  cursor: pointer; 
+  background: var(--primary); 
+  color: #fff;
+  font-weight: 500;
+  /* Smooth transitions */
+  transition: all var(--animation-duration) var(--transition-timing);
+  /* Hardware acceleration */
+  transform: translateZ(0);
+}
+
+button:hover {
+  background: #1e4bac;
+  transform: translateY(-1px);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.office-layout {
+  display: grid; 
+  gap: 16px; 
+  padding: 16px;
+  grid-template-columns: 1.2fr 1.8fr;
+  grid-template-areas:
+    "boss work"
+    "hall hall";
+  /* Optimize layout */
+  contain: layout;
+}
+
+.card {
+  background: var(--card); 
+  border: 1px solid var(--line);
+  border-radius: 12px; 
+  padding: 14px;
+  box-shadow: 0 8px 20px rgba(15, 23, 42, .05);
+  /* Optimize rendering */
+  contain: layout style paint;
+  /* Hardware acceleration */
+  transform: translateZ(0);
+}
+
+.boss-office { grid-area: boss; }
+.workstations { grid-area: work; }
+.hall-board { grid-area: hall; }
+
+.stats-grid {
+  display: grid; 
+  gap: 8px; 
+  grid-template-columns: repeat(2, minmax(120px, 1fr));
+  /* Optimize for frequent updates */
+  contain: layout style;
+}
+
+.stat {
+  background: #f8fbff; 
+  border: 1px solid var(--line);
+  border-radius: 10px; 
+  padding: 10px;
+  /* Smooth transitions */
+  transition: all var(--animation-duration) var(--transition-timing);
+}
+
+.stat:hover {
+  background: #f0f7ff;
+  transform: scale(1.02);
+}
+
+.stat strong { 
+  display: block; 
+  font-size: 22px;
+  /* Prevent layout shifts */
+  contain: content;
+}
+
+.meta { 
+  color: var(--muted); 
+  font-size: 12px;
+  contain: content;
+}
+
+.agent-grid {
+  display: grid; 
+  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  /* Optimize for virtualization */
+  contain: layout style;
+}
+
+.agent-card {
+  border: 1px solid var(--line); 
+  border-radius: 10px; 
+  padding: 10px;
+  background: #fff;
+  /* Hardware acceleration */
+  transform: translateZ(0);
+  /* Smooth transitions */
+  transition: all var(--animation-duration) var(--transition-timing);
+  /* Optimize rendering */
+  contain: layout style paint;
+}
+
+.agent-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.1);
+}
+
+.badge { 
+  display: inline-block; 
+  padding: 2px 8px; 
+  border-radius: 999px; 
+  font-size: 12px; 
+  color: #fff;
+  /* Smooth transitions */
+  transition: all var(--animation-duration) var(--transition-timing);
+}
+
+.badge.active { 
+  background: var(--ok);
+  animation: statusPulse 2s infinite;
+}
+
+.badge.done { 
+  background: #64748b;
+}
+
+@keyframes statusPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.kanban { 
+  display: grid; 
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 10px;
+  /* Optimize for frequent updates */
+  contain: layout style;
+}
+
+.kanban > div { 
+  background: #f8fbff; 
+  border: 1px solid var(--line); 
+  border-radius: 10px; 
+  padding: 8px;
+  /* Smooth transitions */
+  transition: all var(--animation-duration) var(--transition-timing);
+}
+
+ul { 
+  margin: 8px 0 0; 
+  padding-left: 18px;
+  /* Optimize for frequent updates */
+  contain: content;
+}
+
+li { 
+  margin-bottom: 8px;
+  /* Smooth transitions */
+  transition: all var(--animation-duration) var(--transition-timing);
+}
+
+dialog { 
+  border: 0; 
+  border-radius: 12px; 
+  max-width: 640px; 
+  width: 92%;
+  /* Hardware acceleration */
+  transform: translateZ(0);
+  /* Smooth transitions */
+  transition: all var(--animation-duration) var(--transition-timing);
+}
+
+/* Performance indicators */
+.performance-indicators {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+}
+
+.perf-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.perf-stat strong {
+  color: var(--primary);
+  font-size: 14px;
+}
+
+/* Button styles */
+.btn-icon {
+  margin-right: 4px;
+}
+
+.btn-text {
+  font-size: 12px;
+}
+
+/* Virtual scroll optimization */
+.virtual-scroll {
+  height: 400px;
+  overflow-y: auto;
+  position: relative;
+  /* Optimize scrolling performance */
+  contain: strict;
+  /* Hardware acceleration */
+  transform: translateZ(0);
+}
+
+.virtual-scroll-content {
+  position: relative;
+}
+
+/* Loading overlay */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  /* Hardware acceleration */
+  transform: translateZ(0);
+}
+
+.loading-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Canvas animations */
+.performance-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  /* Hardware acceleration */
+  transform: translateZ(0);
+}
+
+/* Animation toggle */
+.animation-disabled .pulse-animation,
+.animation-disabled .badge.active,
+.animation-disabled .agent-card:hover,
+.animation-disabled .stat:hover,
+.animation-disabled .kanban > div:hover {
+  animation: none !important;
+  transition: none !important;
+  transform: none !important;
+}
+
+/* Performance mode */
+.performance-mode .card {
+  box-shadow: none;
+  border: 1px solid var(--line);
+}
+
+.performance-mode .agent-card:hover {
+  box-shadow: none;
+  border: 1px solid var(--primary);
+}
+
+/* Responsive design */
+@media (max-width: 900px) {
+  .office-layout {
+    grid-template-columns: 1fr;
+    grid-template-areas: "boss" "work" "hall";
+  }
+  .kanban { 
+    grid-template-columns: 1fr; 
+  }
+  .performance-indicators {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .topbar {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .performance-indicators {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Browser compatibility */
+@supports (backdrop-filter: blur(10px)) {
+  .loading-overlay {
+    backdrop-filter: blur(10px);
+  }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

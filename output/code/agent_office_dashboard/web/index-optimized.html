@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>老板视角子Agent办公室看板 - 优化版</title>
+    <link rel="stylesheet" href="./style.css" />
+    <style>
+      /* Performance optimizations */
+      .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255, 255, 255, 0.9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
+      .loading-overlay.active {
+        opacity: 1;
+        pointer-events: all;
+      }
+      
+      /* Canvas animations */
+      .performance-canvas {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 1;
+      }
+      
+      .agent-card {
+        position: relative;
+        overflow: hidden;
+      }
+      
+      .pulse-animation {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: var(--primary);
+        opacity: 0;
+        animation: pulse 2s infinite;
+      }
+      
+      @keyframes pulse {
+        0% {
+          transform: translate(-50%, -50%) scale(0);
+          opacity: 1;
+        }
+        100% {
+          transform: translate(-50%, -50%) scale(4);
+          opacity: 0;
+        }
+      }
+      
+      /* Smooth transitions */
+      .agent-card {
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      .agent-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 24px rgba(15, 23, 42, 0.1);
+      }
+      
+      /* Virtualization container */
+      .virtual-scroll {
+        height: 400px;
+        overflow-y: auto;
+        position: relative;
+      }
+      
+      .virtual-scroll-content {
+        position: relative;
+      }
+      
+      /* Memory optimization */
+      .stale-element {
+        opacity: 0.5;
+        transition: opacity 0.2s ease;
+      }
+      
+      .stale-element.removed {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Loading overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+      <canvas id="loadingCanvas" width="200" height="200"></canvas>
+    </div>
+
+    <!-- Performance monitoring canvas -->
+    <canvas id="performanceCanvas" class="performance-canvas"></canvas>
+
+    <header class="topbar">
+      <h1>🏢 老板办公室 · 子Agent可视化看板</h1>
+      <div class="actions">
+        <button id="refreshData" aria-label="刷新数据">
+          <span class="btn-icon">🔄</span>
+          <span class="btn-text">一键刷新</span>
+        </button>
+        <button id="toggleAnimation" aria-label="切换动画">
+          <span class="btn-icon">✨</span>
+          <span class="btn-text">动画</span>
+        </button>
+        <button id="performanceMode" aria-label="性能模式">
+          <span class="btn-icon">⚡</span>
+          <span class="btn-text">性能</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="office-layout">
+      <section class="boss-office card" id="summaryCard">
+        <h2>👔 老板办公室（总览）</h2>
+        <div class="stats-grid" id="summaryStats"></div>
+        <p class="meta" id="generatedAt">-</p>
+        
+        <!-- Performance indicators -->
+        <div class="performance-indicators" id="performanceIndicators">
+          <div class="perf-stat">
+            <span>FPS:</span>
+            <strong id="fpsCounter">60</strong>
+          </div>
+          <div class="perf-stat">
+            <span>内存:</span>
+            <strong id="memoryUsage">0MB</strong>
+          </div>
+          <div class="perf-stat">
+            <span>渲染:</span>
+            <strong id="renderTime">0ms</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="workstations card">
+        <h2>🪑 部门工位（点击看详情）</h2>
+        <div class="virtual-scroll" id="agentScrollContainer">
+          <div class="virtual-scroll-content" id="agentCards"></div>
+        </div>
+      </section>
+
+      <section class="hall-board card">
+        <h2>📌 大厅任务看板</h2>
+        <div class="kanban">
+          <div>
+            <h3>待办 ToDo</h3>
+            <ul id="todoList"></ul>
+          </div>
+          <div>
+            <h3>进行中 Doing</h3>
+            <ul id="doingList"></ul>
+          </div>
+          <div>
+            <h3>完成 Done</h3>
+            <ul id="doneList"></ul>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <dialog id="agentDetail">
+      <article>
+        <h3 id="detailTitle">Agent详情</h3>
+        <p id="detailMeta"></p>
+        <div id="detailCanvas" style="width: 100%; height: 200px; margin: 10px 0;"></div>
+        <ul id="detailTasks"></ul>
+        <button id="closeDetail">关闭</button>
+      </article>
+    </dialog>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,33 @@
+[1/2] 生成看板数据...
+✅ 已生成: /Users/a1/.openclaw/workspace/output/code/agent_office_dashboard/data/dashboard.json
+[2/2] 启动本地服务...
+Portal地址: http://127.0.0.1:18979
+办公室看板: http://127.0.0.1:18979/office
+127.0.0.1 - - [15/Mar/2026 23:05:24] "GET /office HTTP/1.1" 200 -
+127.0.0.1 - - [16/Mar/2026 07:14:03] "GET /office HTTP/1.1" 200 -
+127.0.0.1 - - [16/Mar/2026 07:14:03] code 404, message File not found
+127.0.0.1 - - [16/Mar/2026 07:14:03] "GET /style.css HTTP/1.1" 404 -
+127.0.0.1 - - [16/Mar/2026 07:14:03] code 404, message File not found
+127.0.0.1 - - [16/Mar/2026 07:14:03] "GET /app.js HTTP/1.1" 404 -
+127.0.0.1 - - [16/Mar/2026 07:14:04] code 404, message File not found
+127.0.0.1 - - [16/Mar/2026 07:14:04] "GET /favicon.ico HTTP/1.1" 404 -
+127.0.0.1 - - [16/Mar/2026 07:14:07] "GET /office HTTP/1.1" 304 -
+127.0.0.1 - - [16/Mar/2026 07:14:07] code 404, message File not found
+127.0.0.1 - - [16/Mar/2026 07:14:07] code 404, message File not found
+127.0.0.1 - - [16/Mar/2026 07:14:07] "GET /style.css HTTP/1.1" 404 -
+127.0.0.1 - - [16/Mar/2026 07:14:07] "GET /app.js HTTP/1.1" 404 -
+127.0.0.1 - - [16/Mar/2026 07:17:44] "GET /office HTTP/1.1" 304 -
+127.0.0.1 - - [16/Mar/2026 07:17:44] code 404, message File not found
+127.0.0.1 - - [16/Mar/2026 07:17:44] "GET /style.css HTTP/1.1" 404 -
+127.0.0.1 - - [16/Mar/2026 07:17:44] code 404, message File not found
+127.0.0.1 - - [16/Mar/2026 07:17:44] "GET /app.js HTTP/1.1" 404 -
+127.0.0.1 - - [16/Mar/2026 07:19:44] code 404, message File not found
+127.0.0.1 - - [16/Mar/2026 07:19:44] "HEAD /office HTTP/1.1" 404 -
+127.0.0.1 - - [16/Mar/2026 07:53:28] "GET /office HTTP/1.1" 304 -
+127.0.0.1 - - [16/Mar/2026 07:53:28] code 404, message File not found
+127.0.0.1 - - [16/Mar/2026 07:53:28] "GET /style.css HTTP/1.1" 404 -
+127.0.0.1 - - [16/Mar/2026 07:53:28] code 404, message File not found
+127.0.0.1 - - [16/Mar/2026 07:53:28] "GET /app.js HTTP/1.1" 404 -
+127.0.0.1 - - [16/Mar/2026 07:53:28] code 404, message File not found
+127.0.0.1 - - [16/Mar/2026 07:53:28] "GET /favicon.ico HTTP/1.1" 404 -
+./run.sh: line 12: 22403 Terminated: 15          python3 serve.py

@@ -1,0 +1,7 @@
+[2026-03-16T06:57:48] feishu_doc_enabled=False
+mode=mock
+target_doc_token=mock_doc_token
+brief_path=/Users/a1/.openclaw/workspace/output/code/public_opinion_mvp/output/briefs/event_brief_5w1h.md
+retro_path=/Users/a1/.openclaw/workspace/output/code/public_opinion_mvp/output/reports/retro_24h.md
+weekly_path=/Users/a1/.openclaw/workspace/output/code/public_opinion_mvp/output/reports/weekly_summary.md
+status=mock_only (未启用真实调用，保持mock链路)

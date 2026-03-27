@@ -1,0 +1,13 @@
+{
+  "message": {
+    "mode": "simulate",
+    "enabled": false,
+    "target": "#ops-war-room",
+    "channel": ""
+  },
+  "feishu_doc": {
+    "enabled": false,
+    "mode": "mock",
+    "doc_token": "mock_doc_token"
+  }
+}

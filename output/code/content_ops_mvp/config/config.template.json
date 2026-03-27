@@ -1,0 +1,43 @@
+{
+  "project": {
+    "name": "OpenClaw 自媒体内容生产工作流 MVP",
+    "timezone": "Asia/Shanghai"
+  },
+  "paths": {
+    "workspace_root": "/Users/a1/.openclaw/workspace",
+    "runtime_output_dir": "/Users/a1/.openclaw/workspace/output/content_ops_mvp",
+    "weekly_report_dir": "/Users/a1/.openclaw/workspace/output/reports"
+  },
+  "workflow": {
+    "keywords": ["AI Agent", "自动化运营", "内容飞轮", "个人IP"],
+    "default_mode": "run_once",
+    "dry_run_publish": true,
+    "daemon_interval_minutes": 60
+  },
+  "sources": {
+    "topic_seeds_file": "data/topic_seeds.txt",
+    "trending_file": "data/trending_signals.csv",
+    "feedback_metrics_file": "data/feedback_metrics.csv"
+  },
+  "openclaw": {
+    "publish_adapter": "simulate",
+    "local_publish_command": "openclaw message send --channel feishu --target {target} --message \"{text}\"",
+    "default_target": "运营群"
+  },
+  "channels": {
+    "wechat": {
+      "enabled": true,
+      "account": "公众号名称",
+      "publish_time": "09:00",
+      "template": "templates/wechat_long_article.md",
+      "type": "long_article"
+    },
+    "xiaohongshu": {
+      "enabled": true,
+      "account": "小红书账号",
+      "publish_time": "19:30",
+      "template": "templates/xiaohongshu_image_text.md",
+      "type": "image_text"
+    }
+  }
+}

@@ -1,0 +1,198 @@
+{
+  "meta": {
+    "total_collected": 18,
+    "total_after_cleaning": 18,
+    "dropped_noise": 0,
+    "dropped_duplicate": 0,
+    "fetch_errors": [],
+    "fetch_logs": [
+      {
+        "source": "sample_jsonl",
+        "type": "sample",
+        "status": "ok",
+        "count": 16
+      },
+      {
+        "source": "local_rss_feed",
+        "type": "rss",
+        "status": "ok",
+        "count": 2
+      }
+    ],
+    "fallback_records": [],
+    "fetch_policy": {
+      "retries": 2,
+      "timeout_sec": 10,
+      "retry_interval_sec": 1.0,
+      "fallback_to_sample": true
+    }
+  },
+  "items": [
+    {
+      "id": "p001",
+      "timestamp": "2026-03-15T18:00:00+08:00",
+      "channel": "weibo",
+      "author": "u01",
+      "text": "品牌A 产品X 晚高峰出现宕机，无法下单，投诉电话打不通",
+      "normalized_text": "品牌a 产品x 晚高峰出现宕机，无法下单，投诉电话打不通",
+      "dedup_key": "ab9755fdc02ad75e"
+    },
+    {
+      "id": "p002",
+      "timestamp": "2026-03-15T18:05:00+08:00",
+      "channel": "forum",
+      "author": "u02",
+      "text": "产品X 崩溃了，付款失败，差评",
+      "normalized_text": "产品x 崩溃了，付款失败，差评",
+      "dedup_key": "1c3cd7b523de850f"
+    },
+    {
+      "id": "p003",
+      "timestamp": "2026-03-15T18:08:00+08:00",
+      "channel": "douyin",
+      "author": "u03",
+      "text": "品牌A 今天是不是挂了，无法登录",
+      "normalized_text": "品牌a 今天是不是挂了，无法登录",
+      "dedup_key": "c6c4bb2723b6a4e4"
+    },
+    {
+      "id": "p004",
+      "timestamp": "2026-03-15T18:10:00+08:00",
+      "channel": "xiaohongshu",
+      "author": "u04",
+      "text": "订单卡住，申请退款，维权群有人吗",
+      "normalized_text": "订单卡住，申请退款，维权群有人吗",
+      "dedup_key": "b24afe39e598450d"
+    },
+    {
+      "id": "p005",
+      "timestamp": "2026-03-15T18:15:00+08:00",
+      "channel": "weibo",
+      "author": "u05",
+      "text": "产品X 宕机持续30分钟，客服无响应",
+      "normalized_text": "产品x 宕机持续30分钟，客服无响应",
+      "dedup_key": "1e3c34ce07640682"
+    },
+    {
+      "id": "p006",
+      "timestamp": "2026-03-15T18:30:00+08:00",
+      "channel": "weibo",
+      "author": "u06",
+      "text": "官方说正在修复，希望尽快恢复",
+      "normalized_text": "官方说正在修复，希望尽快恢复",
+      "dedup_key": "6206e58c2f163b09"
+    },
+    {
+      "id": "p007",
+      "timestamp": "2026-03-15T19:10:00+08:00",
+      "channel": "forum",
+      "author": "u07",
+      "text": "听说品牌A 数据泄露？收到异常验证码",
+      "normalized_text": "听说品牌a 数据泄露？收到异常验证码",
+      "dedup_key": "69fb6fb4571a4cc1"
+    },
+    {
+      "id": "p008",
+      "timestamp": "2026-03-15T19:15:00+08:00",
+      "channel": "weibo",
+      "author": "u08",
+      "text": "数据泄露太吓人了，必须给个解释",
+      "normalized_text": "数据泄露太吓人了，必须给个解释",
+      "dedup_key": "d4df56d9f3434081"
+    },
+    {
+      "id": "p009",
+      "timestamp": "2026-03-15T19:20:00+08:00",
+      "channel": "xiaohongshu",
+      "author": "u09",
+      "text": "品牌A 泄露事件是真的吗，准备投诉",
+      "normalized_text": "品牌a 泄露事件是真的吗，准备投诉",
+      "dedup_key": "630284b8bc00e5d7"
+    },
+    {
+      "id": "p010",
+      "timestamp": "2026-03-15T19:22:00+08:00",
+      "channel": "douyin",
+      "author": "u10",
+      "text": "朋友账号异常登录，怀疑信息泄露",
+      "normalized_text": "朋友账号异常登录，怀疑信息泄露",
+      "dedup_key": "2ba3a9f753d7eb20"
+    },
+    {
+      "id": "p011",
+      "timestamp": "2026-03-15T19:25:00+08:00",
+      "channel": "forum",
+      "author": "u11",
+      "text": "产品X 这次不是宕机，是安全问题？愤怒",
+      "normalized_text": "产品x 这次不是宕机，是安全问题？愤怒",
+      "dedup_key": "2c5a0922b42f05ee"
+    },
+    {
+      "id": "p012",
+      "timestamp": "2026-03-15T20:10:00+08:00",
+      "channel": "weibo",
+      "author": "u12",
+      "text": "刚看到品牌A 公告，正在排查并改进",
+      "normalized_text": "刚看到品牌a 公告，正在排查并改进",
+      "dedup_key": "9d0396e4d3c64511"
+    },
+    {
+      "id": "p013",
+      "timestamp": "2026-03-15T20:30:00+08:00",
+      "channel": "douyin",
+      "author": "u13",
+      "text": "涨价消息又来了，老用户感觉被背刺",
+      "normalized_text": "涨价消息又来了，老用户感觉被背刺",
+      "dedup_key": "452dbde731439c1f"
+    },
+    {
+      "id": "p014",
+      "timestamp": "2026-03-15T20:35:00+08:00",
+      "channel": "forum",
+      "author": "u14",
+      "text": "产品X 涨价还不稳定，差评",
+      "normalized_text": "产品x 涨价还不稳定，差评",
+      "dedup_key": "b336555fcb2c8f82"
+    },
+    {
+      "id": "p015",
+      "timestamp": "2026-03-15T20:40:00+08:00",
+      "channel": "xiaohongshu",
+      "author": "u15",
+      "text": "涨价+体验差，准备维权",
+      "normalized_text": "涨价+体验差，准备维权",
+      "dedup_key": "a57733928aa6bc38"
+    },
+    {
+      "id": "p016",
+      "timestamp": "2026-03-15T21:00:00+08:00",
+      "channel": "weibo",
+      "author": "u16",
+      "text": "今天问题太多了，希望官方尽快解决",
+      "normalized_text": "今天问题太多了，希望官方尽快解决",
+      "dedup_key": "e41a27e1be158d8b"
+    },
+    {
+      "id": "rss_1",
+      "timestamp": "2026-03-15T21:40:00+08:00",
+      "channel": "rss",
+      "author": "rss_bot",
+      "text": "品牌A 夜间服务恢复公告 官方表示产品X宕机问题已定位，正在逐步恢复。",
+      "source_type": "rss",
+      "fetch_attempts": 1,
+      "normalized_text": "品牌a 夜间服务恢复公告 官方表示产品x宕机问题已定位，正在逐步恢复。",
+      "dedup_key": "8af427aa73fbae46"
+    },
+    {
+      "id": "rss_2",
+      "timestamp": "2026-03-15T21:50:00+08:00",
+      "channel": "rss",
+      "author": "rss_bot",
+      "text": "用户反馈异常登录持续 多名用户表示收到异常验证码，担忧账号安全泄露。",
+      "source_type": "rss",
+      "fetch_attempts": 1,
+      "normalized_text": "用户反馈异常登录持续 多名用户表示收到异常验证码，担忧账号安全泄露。",
+      "dedup_key": "c3a506ca8ecbb842"
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>老板视角子Agent办公室看板</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <h1>🏢 老板办公室 · 子Agent可视化看板</h1>
+      <div class="actions">
+        <button id="refreshData">一键刷新数据</button>
+      </div>
+    </header>
+
+    <main class="office-layout">
+      <section class="boss-office card" id="summaryCard">
+        <h2>👔 老板办公室（总览）</h2>
+        <div class="stats-grid" id="summaryStats"></div>
+        <p class="meta" id="generatedAt">-</p>
+      </section>
+
+      <section class="workstations card">
+        <h2>🪑 部门工位（点击看详情）</h2>
+        <div id="agentCards" class="agent-grid"></div>
+      </section>
+
+      <section class="hall-board card">
+        <h2>📌 大厅任务看板</h2>
+        <div class="kanban">
+          <div>
+            <h3>待办 ToDo</h3>
+            <ul id="todoList"></ul>
+          </div>
+          <div>
+            <h3>进行中 Doing</h3>
+            <ul id="doingList"></ul>
+          </div>
+          <div>
+            <h3>完成 Done</h3>
+            <ul id="doneList"></ul>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <dialog id="agentDetail">
+      <article>
+        <h3 id="detailTitle">Agent详情</h3>
+        <p id="detailMeta"></p>
+        <ul id="detailTasks"></ul>
+        <button id="closeDetail">关闭</button>
+      </article>
+    </dialog>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

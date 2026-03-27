@@ -1,0 +1,16 @@
+[gate] 1/5 generate realtime board data
+[board-data] written: /Users/a1/.openclaw/workspace/custom-ui/board/data/dashboard.json
+[board-data] PM todoCount=1
+[board-data] Tester todoCount=1
+[gate] 2/5 assert PM=1 & Tester=1
+OK pm=1 tester=1
+[gate] 3/5 assert route isolation (/board + legacy redirect + /chat)
+OK route isolation checks
+[gate] 3.5/5 assert gateway auth failure hint (no silent fallback)
+OK auth-failure hint checks
+[gate] 4/5 assert mutual active state
+OK mutual-active checks
+[gate] 5/5 assert refresh stability
+OK source/summary schema
+OK refresh stable (counts unchanged), pm=1 tester=1 sha1=642e501f93c36c98b807af4a44ed6c55edce925963e502ac74ff39ecd11a44c0 sha2=bbb5799e5969cdb27cffd1c4478bbea1fc2af6626fc781bd0c2a40c4f59be6da
+[gate] PASS all 5 assertions

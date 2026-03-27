@@ -1,0 +1,8 @@
+# 舆情巡检（每30分钟）
+*/30 * * * * cd /Users/a1/.openclaw/workspace/output/code/public_opinion_mvp && python3 scripts/workflow.py --root /Users/a1/.openclaw/workspace/output/code/public_opinion_mvp >> output/cron_pipeline.log 2>&1
+
+# 每日快报（09:00）
+0 9 * * * cd /Users/a1/.openclaw/workspace/output/code/public_opinion_mvp && python3 scripts/04_generate_brief.py --alerts output/alerts/events_alerts.json --timeline output/timeline/events_timeline.json --output output/briefs/event_brief_5w1h.md >> output/cron_daily.log 2>&1
+
+# 每周复盘（周一09:30）
+30 9 * * 1 cd /Users/a1/.openclaw/workspace/output/code/public_opinion_mvp && python3 scripts/06_generate_weekly.py --alerts output/alerts/events_alerts.json --timeline output/timeline/events_timeline.json --output output/reports/weekly_summary.md >> output/cron_weekly.log 2>&1

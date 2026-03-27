@@ -1,0 +1,8 @@
+# OpenClaw 自媒体内容工作流 cron 示例
+# 使用前先: crontab -e
+
+# 每天 08:30 自动跑一轮完整链路（选题->采集->创作->发布->反馈->周报）
+30 8 * * * /bin/bash /Users/a1/.openclaw/workspace/output/code/content_ops_mvp/run.sh >> /Users/a1/.openclaw/workspace/output/content_ops_mvp/logs/cron_daily.log 2>&1
+
+# 每周一 09:00 自动复盘（同样跑全链路并生成周报）
+0 9 * * 1 /usr/bin/python3 /Users/a1/.openclaw/workspace/output/code/content_ops_mvp/scripts/workflow.py run_once >> /Users/a1/.openclaw/workspace/output/content_ops_mvp/logs/cron_weekly.log 2>&1

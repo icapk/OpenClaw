@@ -1,0 +1,6 @@
+[gate] 1/5 generate realtime board data
+[board-data] written: /Users/a1/.openclaw/workspace/custom-ui/board/data/dashboard.json
+[board-data] PM todoCount=0
+[board-data] Tester todoCount=1
+[gate] 2/5 assert PM=1 & Tester=1
+PM todoCount expected 1, got 0

@@ -1,0 +1,798 @@
+{
+  "summary": {
+    "total_mentions": 16,
+    "sentiment_count": {
+      "negative": 13,
+      "positive": 1,
+      "neutral": 2
+    },
+    "negative_ratio": 0.812,
+    "peak_bucket_mentions": 3,
+    "avg_bucket_mentions": 1.78,
+    "keyword_count": {
+      "品牌A": 6,
+      "产品X": 6,
+      "宕机": 4,
+      "投诉": 2,
+      "维权": 2,
+      "泄露": 5,
+      "异常登录": 2,
+      "涨价": 3
+    },
+    "topic_count": {
+      "服务故障": 6,
+      "维权投诉": 1,
+      "数据安全": 5,
+      "其他": 1,
+      "价格争议": 3
+    },
+    "risk_score": 66
+  },
+  "global_alert": {
+    "triggered": true,
+    "level": "P2",
+    "reasons": [
+      "mention_count_reached",
+      "negative_ratio_exceeded"
+    ],
+    "escalation_policy": {
+      "enabled": true,
+      "timeout_minutes": 20,
+      "next_level": {
+        "P3": "P2",
+        "P2": "P1",
+        "P1": "P1"
+      }
+    }
+  },
+  "alerts": [
+    {
+      "alert_id": "A-5550",
+      "topic": "服务故障",
+      "level": "P1",
+      "status": "escalated",
+      "created_at": "2026-03-15T18:00:00+08:00",
+      "updated_at": "2026-03-15T21:40:00+08:00",
+      "escalate_after_minutes": 20,
+      "escalate_to": "P1",
+      "reasons": [
+        "mention_count_reached",
+        "negative_ratio_exceeded"
+      ],
+      "metrics": {
+        "mentions": 6,
+        "negative_ratio": 0.833
+      },
+      "escalated_from": "P2",
+      "escalated_at": "2026-03-16T06:57:48+08:00"
+    },
+    {
+      "alert_id": "A-3686",
+      "topic": "维权投诉",
+      "level": "P3",
+      "status": "observe",
+      "created_at": "2026-03-15T18:10:00+08:00",
+      "updated_at": "2026-03-15T18:10:00+08:00",
+      "escalate_after_minutes": 20,
+      "escalate_to": "P2",
+      "reasons": [
+        "mention_count_reached",
+        "negative_ratio_exceeded"
+      ],
+      "metrics": {
+        "mentions": 1,
+        "negative_ratio": 1.0
+      }
+    },
+    {
+      "alert_id": "A-6110",
+      "topic": "数据安全",
+      "level": "P1",
+      "status": "open",
+      "created_at": "2026-03-15T19:10:00+08:00",
+      "updated_at": "2026-03-15T21:50:00+08:00",
+      "escalate_after_minutes": 20,
+      "escalate_to": "P1",
+      "reasons": [
+        "mention_count_reached",
+        "negative_ratio_exceeded"
+      ],
+      "metrics": {
+        "mentions": 5,
+        "negative_ratio": 1.0
+      }
+    },
+    {
+      "alert_id": "A-1750",
+      "topic": "其他",
+      "level": "P3",
+      "status": "observe",
+      "created_at": "2026-03-15T20:10:00+08:00",
+      "updated_at": "2026-03-15T20:10:00+08:00",
+      "escalate_after_minutes": 20,
+      "escalate_to": "P2",
+      "reasons": [
+        "mention_count_reached",
+        "negative_ratio_exceeded"
+      ],
+      "metrics": {
+        "mentions": 1,
+        "negative_ratio": 0.0
+      }
+    },
+    {
+      "alert_id": "A-5791",
+      "topic": "价格争议",
+      "level": "P2",
+      "status": "escalated",
+      "created_at": "2026-03-15T20:30:00+08:00",
+      "updated_at": "2026-03-15T20:40:00+08:00",
+      "escalate_after_minutes": 20,
+      "escalate_to": "P2",
+      "reasons": [
+        "mention_count_reached",
+        "negative_ratio_exceeded"
+      ],
+      "metrics": {
+        "mentions": 3,
+        "negative_ratio": 0.667
+      },
+      "escalated_from": "P3",
+      "escalated_at": "2026-03-16T06:57:48+08:00"
+    }
+  ],
+  "events": [
+    {
+      "event_id": "E001",
+      "topic": "服务可用性故障",
+      "mention_count": 5,
+      "start_time": "2026-03-15T18:00:00+08:00",
+      "end_time": "2026-03-15T19:25:00+08:00",
+      "channels": [
+        "douyin",
+        "forum",
+        "weibo"
+      ],
+      "sample_texts": [
+        "品牌A 产品X 晚高峰出现宕机，无法下单，投诉电话打不通",
+        "产品X 崩溃了，付款失败，差评",
+        "品牌A 今天是不是挂了，无法登录"
+      ],
+      "attribution": {
+        "channel": {
+          "weibo": 2,
+          "forum": 2,
+          "douyin": 1
+        },
+        "topic": {
+          "服务可用性故障": 5
+        },
+        "sentiment": {
+          "negative": 5
+        }
+      },
+      "timeline_stats": {
+        "peak_bucket": "2026-03-15 18:00",
+        "peak_count": 3,
+        "turning_points": [],
+        "bucket_series": [
+          {
+            "bucket": "2026-03-15 18:00",
+            "count": 3
+          },
+          {
+            "bucket": "2026-03-15 18:10",
+            "count": 1
+          },
+          {
+            "bucket": "2026-03-15 19:20",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "event_id": "E006",
+      "topic": "价格争议",
+      "mention_count": 3,
+      "start_time": "2026-03-15T20:30:00+08:00",
+      "end_time": "2026-03-15T20:40:00+08:00",
+      "channels": [
+        "douyin",
+        "forum",
+        "xiaohongshu"
+      ],
+      "sample_texts": [
+        "涨价消息又来了，老用户感觉被背刺",
+        "产品X 涨价还不稳定，差评",
+        "涨价+体验差，准备维权"
+      ],
+      "attribution": {
+        "channel": {
+          "douyin": 1,
+          "forum": 1,
+          "xiaohongshu": 1
+        },
+        "topic": {
+          "价格争议": 3
+        },
+        "sentiment": {
+          "negative": 2,
+          "neutral": 1
+        }
+      },
+      "timeline_stats": {
+        "peak_bucket": "2026-03-15 20:30",
+        "peak_count": 2,
+        "turning_points": [],
+        "bucket_series": [
+          {
+            "bucket": "2026-03-15 20:30",
+            "count": 2
+          },
+          {
+            "bucket": "2026-03-15 20:40",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "event_id": "E003",
+      "topic": "数据安全疑虑",
+      "mention_count": 2,
+      "start_time": "2026-03-15T19:10:00+08:00",
+      "end_time": "2026-03-15T19:15:00+08:00",
+      "channels": [
+        "forum",
+        "weibo"
+      ],
+      "sample_texts": [
+        "听说品牌A 数据泄露？收到异常验证码",
+        "数据泄露太吓人了，必须给个解释"
+      ],
+      "attribution": {
+        "channel": {
+          "forum": 1,
+          "weibo": 1
+        },
+        "topic": {
+          "数据安全疑虑": 2
+        },
+        "sentiment": {
+          "negative": 2
+        }
+      },
+      "timeline_stats": {
+        "peak_bucket": "2026-03-15 19:10",
+        "peak_count": 2,
+        "turning_points": [],
+        "bucket_series": [
+          {
+            "bucket": "2026-03-15 19:10",
+            "count": 2
+          }
+        ]
+      }
+    },
+    {
+      "event_id": "E004",
+      "topic": "数据安全疑虑",
+      "mention_count": 2,
+      "start_time": "2026-03-15T19:20:00+08:00",
+      "end_time": "2026-03-15T19:22:00+08:00",
+      "channels": [
+        "douyin",
+        "xiaohongshu"
+      ],
+      "sample_texts": [
+        "品牌A 泄露事件是真的吗，准备投诉",
+        "朋友账号异常登录，怀疑信息泄露"
+      ],
+      "attribution": {
+        "channel": {
+          "xiaohongshu": 1,
+          "douyin": 1
+        },
+        "topic": {
+          "数据安全疑虑": 2
+        },
+        "sentiment": {
+          "negative": 2
+        }
+      },
+      "timeline_stats": {
+        "peak_bucket": "2026-03-15 19:20",
+        "peak_count": 2,
+        "turning_points": [],
+        "bucket_series": [
+          {
+            "bucket": "2026-03-15 19:20",
+            "count": 2
+          }
+        ]
+      }
+    },
+    {
+      "event_id": "E002",
+      "topic": "用户维权",
+      "mention_count": 1,
+      "start_time": "2026-03-15T18:10:00+08:00",
+      "end_time": "2026-03-15T18:10:00+08:00",
+      "channels": [
+        "xiaohongshu"
+      ],
+      "sample_texts": [
+        "订单卡住，申请退款，维权群有人吗"
+      ],
+      "attribution": {
+        "channel": {
+          "xiaohongshu": 1
+        },
+        "topic": {
+          "用户维权": 1
+        },
+        "sentiment": {
+          "negative": 1
+        }
+      },
+      "timeline_stats": {
+        "peak_bucket": "2026-03-15 18:10",
+        "peak_count": 1,
+        "turning_points": [],
+        "bucket_series": [
+          {
+            "bucket": "2026-03-15 18:10",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "event_id": "E005",
+      "topic": "其他",
+      "mention_count": 1,
+      "start_time": "2026-03-15T20:10:00+08:00",
+      "end_time": "2026-03-15T20:10:00+08:00",
+      "channels": [
+        "weibo"
+      ],
+      "sample_texts": [
+        "刚看到品牌A 公告，正在排查并改进"
+      ],
+      "attribution": {
+        "channel": {
+          "weibo": 1
+        },
+        "topic": {
+          "其他": 1
+        },
+        "sentiment": {
+          "positive": 1
+        }
+      },
+      "timeline_stats": {
+        "peak_bucket": "2026-03-15 20:10",
+        "peak_count": 1,
+        "turning_points": [],
+        "bucket_series": [
+          {
+            "bucket": "2026-03-15 20:10",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "event_id": "E007",
+      "topic": "服务可用性故障",
+      "mention_count": 1,
+      "start_time": "2026-03-15T21:40:00+08:00",
+      "end_time": "2026-03-15T21:40:00+08:00",
+      "channels": [
+        "rss"
+      ],
+      "sample_texts": [
+        "品牌A 夜间服务恢复公告 官方表示产品X宕机问题已定位，正在逐步恢复。"
+      ],
+      "attribution": {
+        "channel": {
+          "rss": 1
+        },
+        "topic": {
+          "服务可用性故障": 1
+        },
+        "sentiment": {
+          "neutral": 1
+        }
+      },
+      "timeline_stats": {
+        "peak_bucket": "2026-03-15 21:40",
+        "peak_count": 1,
+        "turning_points": [],
+        "bucket_series": [
+          {
+            "bucket": "2026-03-15 21:40",
+            "count": 1
+          }
+        ]
+      }
+    },
+    {
+      "event_id": "E008",
+      "topic": "数据安全疑虑",
+      "mention_count": 1,
+      "start_time": "2026-03-15T21:50:00+08:00",
+      "end_time": "2026-03-15T21:50:00+08:00",
+      "channels": [
+        "rss"
+      ],
+      "sample_texts": [
+        "用户反馈异常登录持续 多名用户表示收到异常验证码，担忧账号安全泄露。"
+      ],
+      "attribution": {
+        "channel": {
+          "rss": 1
+        },
+        "topic": {
+          "数据安全疑虑": 1
+        },
+        "sentiment": {
+          "negative": 1
+        }
+      },
+      "timeline_stats": {
+        "peak_bucket": "2026-03-15 21:50",
+        "peak_count": 1,
+        "turning_points": [],
+        "bucket_series": [
+          {
+            "bucket": "2026-03-15 21:50",
+            "count": 1
+          }
+        ]
+      }
+    }
+  ],
+  "timeline": [
+    {
+      "time": "2026-03-15T18:00:00+08:00",
+      "event_id": "E001",
+      "channel": "weibo",
+      "text": "品牌A 产品X 晚高峰出现宕机，无法下单，投诉电话打不通"
+    },
+    {
+      "time": "2026-03-15T18:05:00+08:00",
+      "event_id": "E001",
+      "channel": "forum",
+      "text": "产品X 崩溃了，付款失败，差评"
+    },
+    {
+      "time": "2026-03-15T18:08:00+08:00",
+      "event_id": "E001",
+      "channel": "douyin",
+      "text": "品牌A 今天是不是挂了，无法登录"
+    },
+    {
+      "time": "2026-03-15T18:10:00+08:00",
+      "event_id": "E002",
+      "channel": "xiaohongshu",
+      "text": "订单卡住，申请退款，维权群有人吗"
+    },
+    {
+      "time": "2026-03-15T18:15:00+08:00",
+      "event_id": "E001",
+      "channel": "weibo",
+      "text": "产品X 宕机持续30分钟，客服无响应"
+    },
+    {
+      "time": "2026-03-15T19:10:00+08:00",
+      "event_id": "E003",
+      "channel": "forum",
+      "text": "听说品牌A 数据泄露？收到异常验证码"
+    },
+    {
+      "time": "2026-03-15T19:15:00+08:00",
+      "event_id": "E003",
+      "channel": "weibo",
+      "text": "数据泄露太吓人了，必须给个解释"
+    },
+    {
+      "time": "2026-03-15T19:20:00+08:00",
+      "event_id": "E004",
+      "channel": "xiaohongshu",
+      "text": "品牌A 泄露事件是真的吗，准备投诉"
+    },
+    {
+      "time": "2026-03-15T19:22:00+08:00",
+      "event_id": "E004",
+      "channel": "douyin",
+      "text": "朋友账号异常登录，怀疑信息泄露"
+    },
+    {
+      "time": "2026-03-15T19:25:00+08:00",
+      "event_id": "E001",
+      "channel": "forum",
+      "text": "产品X 这次不是宕机，是安全问题？愤怒"
+    },
+    {
+      "time": "2026-03-15T20:10:00+08:00",
+      "event_id": "E005",
+      "channel": "weibo",
+      "text": "刚看到品牌A 公告，正在排查并改进"
+    },
+    {
+      "time": "2026-03-15T20:30:00+08:00",
+      "event_id": "E006",
+      "channel": "douyin",
+      "text": "涨价消息又来了，老用户感觉被背刺"
+    },
+    {
+      "time": "2026-03-15T20:35:00+08:00",
+      "event_id": "E006",
+      "channel": "forum",
+      "text": "产品X 涨价还不稳定，差评"
+    },
+    {
+      "time": "2026-03-15T20:40:00+08:00",
+      "event_id": "E006",
+      "channel": "xiaohongshu",
+      "text": "涨价+体验差，准备维权"
+    },
+    {
+      "time": "2026-03-15T21:40:00+08:00",
+      "event_id": "E007",
+      "channel": "rss",
+      "text": "品牌A 夜间服务恢复公告 官方表示产品X宕机问题已定位，正在逐步恢复。"
+    },
+    {
+      "time": "2026-03-15T21:50:00+08:00",
+      "event_id": "E008",
+      "channel": "rss",
+      "text": "用户反馈异常登录持续 多名用户表示收到异常验证码，担忧账号安全泄露。"
+    }
+  ],
+  "timeline_graph": {
+    "nodes": [
+      {
+        "node_id": "E001_N001",
+        "event_id": "E001",
+        "time": "2026-03-15T18:00:00+08:00",
+        "channel": "weibo",
+        "sentiment": "negative",
+        "text": "品牌A 产品X 晚高峰出现宕机，无法下单，投诉电话打不通"
+      },
+      {
+        "node_id": "E001_N002",
+        "event_id": "E001",
+        "time": "2026-03-15T18:05:00+08:00",
+        "channel": "forum",
+        "sentiment": "negative",
+        "text": "产品X 崩溃了，付款失败，差评"
+      },
+      {
+        "node_id": "E001_N003",
+        "event_id": "E001",
+        "time": "2026-03-15T18:08:00+08:00",
+        "channel": "douyin",
+        "sentiment": "negative",
+        "text": "品牌A 今天是不是挂了，无法登录"
+      },
+      {
+        "node_id": "E001_N004",
+        "event_id": "E001",
+        "time": "2026-03-15T18:15:00+08:00",
+        "channel": "weibo",
+        "sentiment": "negative",
+        "text": "产品X 宕机持续30分钟，客服无响应"
+      },
+      {
+        "node_id": "E001_N005",
+        "event_id": "E001",
+        "time": "2026-03-15T19:25:00+08:00",
+        "channel": "forum",
+        "sentiment": "negative",
+        "text": "产品X 这次不是宕机，是安全问题？愤怒"
+      },
+      {
+        "node_id": "E002_N001",
+        "event_id": "E002",
+        "time": "2026-03-15T18:10:00+08:00",
+        "channel": "xiaohongshu",
+        "sentiment": "negative",
+        "text": "订单卡住，申请退款，维权群有人吗"
+      },
+      {
+        "node_id": "E003_N001",
+        "event_id": "E003",
+        "time": "2026-03-15T19:10:00+08:00",
+        "channel": "forum",
+        "sentiment": "negative",
+        "text": "听说品牌A 数据泄露？收到异常验证码"
+      },
+      {
+        "node_id": "E003_N002",
+        "event_id": "E003",
+        "time": "2026-03-15T19:15:00+08:00",
+        "channel": "weibo",
+        "sentiment": "negative",
+        "text": "数据泄露太吓人了，必须给个解释"
+      },
+      {
+        "node_id": "E004_N001",
+        "event_id": "E004",
+        "time": "2026-03-15T19:20:00+08:00",
+        "channel": "xiaohongshu",
+        "sentiment": "negative",
+        "text": "品牌A 泄露事件是真的吗，准备投诉"
+      },
+      {
+        "node_id": "E004_N002",
+        "event_id": "E004",
+        "time": "2026-03-15T19:22:00+08:00",
+        "channel": "douyin",
+        "sentiment": "negative",
+        "text": "朋友账号异常登录，怀疑信息泄露"
+      },
+      {
+        "node_id": "E005_N001",
+        "event_id": "E005",
+        "time": "2026-03-15T20:10:00+08:00",
+        "channel": "weibo",
+        "sentiment": "positive",
+        "text": "刚看到品牌A 公告，正在排查并改进"
+      },
+      {
+        "node_id": "E006_N001",
+        "event_id": "E006",
+        "time": "2026-03-15T20:30:00+08:00",
+        "channel": "douyin",
+        "sentiment": "negative",
+        "text": "涨价消息又来了，老用户感觉被背刺"
+      },
+      {
+        "node_id": "E006_N002",
+        "event_id": "E006",
+        "time": "2026-03-15T20:35:00+08:00",
+        "channel": "forum",
+        "sentiment": "neutral",
+        "text": "产品X 涨价还不稳定，差评"
+      },
+      {
+        "node_id": "E006_N003",
+        "event_id": "E006",
+        "time": "2026-03-15T20:40:00+08:00",
+        "channel": "xiaohongshu",
+        "sentiment": "negative",
+        "text": "涨价+体验差，准备维权"
+      },
+      {
+        "node_id": "E007_N001",
+        "event_id": "E007",
+        "time": "2026-03-15T21:40:00+08:00",
+        "channel": "rss",
+        "sentiment": "neutral",
+        "text": "品牌A 夜间服务恢复公告 官方表示产品X宕机问题已定位，正在逐步恢复。"
+      },
+      {
+        "node_id": "E008_N001",
+        "event_id": "E008",
+        "time": "2026-03-15T21:50:00+08:00",
+        "channel": "rss",
+        "sentiment": "negative",
+        "text": "用户反馈异常登录持续 多名用户表示收到异常验证码，担忧账号安全泄露。"
+      }
+    ],
+    "links": [
+      {
+        "source": "E001_N001",
+        "target": "E001_N002",
+        "event_id": "E001"
+      },
+      {
+        "source": "E001_N002",
+        "target": "E001_N003",
+        "event_id": "E001"
+      },
+      {
+        "source": "E001_N003",
+        "target": "E001_N004",
+        "event_id": "E001"
+      },
+      {
+        "source": "E001_N004",
+        "target": "E001_N005",
+        "event_id": "E001"
+      },
+      {
+        "source": "E003_N001",
+        "target": "E003_N002",
+        "event_id": "E003"
+      },
+      {
+        "source": "E004_N001",
+        "target": "E004_N002",
+        "event_id": "E004"
+      },
+      {
+        "source": "E006_N001",
+        "target": "E006_N002",
+        "event_id": "E006"
+      },
+      {
+        "source": "E006_N002",
+        "target": "E006_N003",
+        "event_id": "E006"
+      }
+    ]
+  },
+  "trend_series": [
+    {
+      "bucket": "2026-03-15 18:00",
+      "count": 3
+    },
+    {
+      "bucket": "2026-03-15 18:10",
+      "count": 2
+    },
+    {
+      "bucket": "2026-03-15 19:10",
+      "count": 2
+    },
+    {
+      "bucket": "2026-03-15 19:20",
+      "count": 3
+    },
+    {
+      "bucket": "2026-03-15 20:10",
+      "count": 1
+    },
+    {
+      "bucket": "2026-03-15 20:30",
+      "count": 2
+    },
+    {
+      "bucket": "2026-03-15 20:40",
+      "count": 1
+    },
+    {
+      "bucket": "2026-03-15 21:40",
+      "count": 1
+    },
+    {
+      "bucket": "2026-03-15 21:50",
+      "count": 1
+    }
+  ],
+  "fragmentation_optimization": {
+    "before": {
+      "event_count": 16,
+      "avg_mentions_per_event": 1
+    },
+    "after": {
+      "event_count": 8,
+      "avg_mentions_per_event": 2
+    },
+    "strategy": {
+      "baseline_threshold": 0.25,
+      "optimized_assign_threshold": 0.2,
+      "optimized_merge_threshold": 0.45,
+      "optimized_time_merge_minutes": 90,
+      "method": "best-match assignment + same-topic iterative merge + time-proximity merge for tiny clusters"
+    }
+  },
+  "reports": [
+    {
+      "name": "5W1H快报",
+      "path": "/Users/a1/.openclaw/workspace/output/code/public_opinion_mvp/output/briefs/event_brief_5w1h.md"
+    },
+    {
+      "name": "24h复盘",
+      "path": "/Users/a1/.openclaw/workspace/output/code/public_opinion_mvp/output/reports/retro_24h.md"
+    },
+    {
+      "name": "周报",
+      "path": "/Users/a1/.openclaw/workspace/output/code/public_opinion_mvp/output/reports/weekly_summary.md"
+    }
+  ]
+}

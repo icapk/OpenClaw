@@ -4,6 +4,7 @@ const path = require('path');
 
 const ROOT = path.resolve(__dirname, '../../..');
 const TASK_DIR = path.join(ROOT, 'tasks', 'in_progress');
+const TASK_COMPLETED_DIR = path.join(ROOT, 'tasks', 'completed');
 const OUT_PATH = path.join(ROOT, 'custom-ui', 'board', 'data', 'dashboard.json');
 
 const AGENT_ROSTER = [
@@ -61,12 +62,12 @@ function parseDateKey(filename, statMs) {
   return `0000-00-00-${String(statMs).padStart(13, '0')}`;
 }
 
-function readTasks() {
-  if (!fs.existsSync(TASK_DIR)) return [];
-  const files = fs.readdirSync(TASK_DIR).filter((f) => f.endsWith('.md') && f.startsWith('任务_'));
+function readTasksFromDir(dir, state) {
+  if (!fs.existsSync(dir)) return [];
+  const files = fs.readdirSync(dir).filter((f) => f.endsWith('.md') && f.startsWith('任务_'));
   const tasks = [];
   for (const f of files) {
-    const full = path.join(TASK_DIR, f);
+    const full = path.join(dir, f);
     const st = fs.statSync(full);
     const text = fs.readFileSync(full, 'utf8');
     const ownerRaw = parseOwner(f, text);
@@ -77,9 +78,17 @@ function readTasks() {
       title: parseTitle(f, text),
       key: parseDateKey(f, st.mtimeMs),
       mtimeMs: st.mtimeMs,
+      state,
     });
   }
   return tasks;
+}
+
+function readTasks() {
+  return {
+    inProgress: readTasksFromDir(TASK_DIR, 'in_progress'),
+    completed: readTasksFromDir(TASK_COMPLETED_DIR, 'completed'),
+  };
 }
 
 function ownerMatch(owner, agent) {
@@ -88,13 +97,25 @@ function ownerMatch(owner, agent) {
 }
 
 function buildPayload() {
-  const tasks = readTasks();
+  const { inProgress, completed } = readTasks();
 
   // 主链路：实时读取 tasks/in_progress，并按 owner 选最新任务作为“当前任务”
   const latestByOwner = new Map();
-  for (const t of tasks) {
+  for (const t of inProgress) {
     const prev = latestByOwner.get(t.owner);
     if (!prev || t.key > prev.key) latestByOwner.set(t.owner, t);
+  }
+
+  // 回补链路：若核心角色在 in_progress 中暂无任务，回补最近 completed 任务（避免看板主角色瞬时归零）
+  const completedLatestByOwner = new Map();
+  for (const t of completed) {
+    const prev = completedLatestByOwner.get(t.owner);
+    if (!prev || t.key > prev.key) completedLatestByOwner.set(t.owner, t);
+  }
+  for (const owner of ['产品经理', '测试工程师']) {
+    if (!latestByOwner.has(owner) && completedLatestByOwner.has(owner)) {
+      latestByOwner.set(owner, completedLatestByOwner.get(owner));
+    }
   }
 
   const activeTasks = Array.from(latestByOwner.values());
@@ -119,7 +140,7 @@ function buildPayload() {
 
   const payload = {
     generatedAt: new Date().toISOString(),
-    source: 'tasks/in_progress realtime aggregation',
+    source: 'tasks/in_progress realtime aggregation (+completed fallback for PM/Tester)',
     summary: {
       totalAgents: agents.length,
       activeAgents: agents.filter((a) => a.status === 'active').length,

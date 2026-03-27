@@ -1,0 +1,3 @@
+# Redirect office-visual to the proper HTML file
+RewriteRule ^/board/office-visual$ /custom-ui/board/office-visual.html [L]
+RewriteRule ^/board/office-visual/$ /custom-ui/board/office-visual.html [L]

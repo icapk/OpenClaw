@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>办公室场景看板 - OpenClaw</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: auto;
+        }
+
+        .office-container {
+            width: 1400px;
+            min-height: 100vh;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+        }
+
+        .office-header {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .office-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #4299e1, #3182ce);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(66, 153, 225, 0.3);
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .office-floor {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            min-height: 600px;
+            position: relative;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .office-area {
+            margin-bottom: 40px;
+        }
+
+        .area-title {
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .boss-office {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(240, 147, 251, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .boss-office::before {
+            content: "👔";
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 40px;
+            opacity: 0.3;
+        }
+
+        .workstations {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .workstation {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .workstation:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .workstation-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .agent-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .agent-info h4 {
+            color: #2d3748;
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+
+        .agent-status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .status-active {
+            background: #48bb78;
+            color: white;
+        }
+
+        .status-done {
+            background: #a0aec0;
+            color: white;
+        }
+
+        .workstation-content {
+            color: #4a5568;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .task-item {
+            background: #f7fafc;
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin: 5px 0;
+            border-left: 4px solid #4299e1;
+        }
+
+        .relaxation-area {
+            background: linear-gradient(135deg, #a8edea, #fed6e3);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 25px rgba(168, 237, 234, 0.4);
+        }
+
+        .fitness-area {
+            background: linear-gradient(135deg, #ffecd2, #fcb69f);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(252, 182, 159, 0.4);
+        }
+
+        .area-icon {
+            font-size: 30px;
+            margin-bottom: 10px;
+        }
+
+        .refresh-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+            transition: transform 0.3s ease;
+        }
+
+        .refresh-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .kanban-board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .kanban-column {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .kanban-header {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+            padding: 10px;
+            border-radius: 10px;
+            color: white;
+        }
+
+        .todo-header { background: #f56565; }
+        .doing-header { background: #ed8936; }
+        .done-header { background: #48bb78; }
+
+        .kanban-task {
+            background: #f7fafc;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid #e2e8f0;
+        }
+
+        .loading {
+            text-align: center;
+            color: white;
+            font-size: 18px;
+            padding: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="office-container">
+        <div class="office-header">
+            <h1 class="office-title">🏢 OpenClaw 办公室场景看板</h1>
+            <div class="stats-grid" id="statsGrid">
+                <div class="stat-card">
+                    <div class="stat-value" id="totalAgents">0</div>
+                    <div class="stat-label">总Agent数</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="activeAgents">0</div>
+                    <div class="stat-label">工作中</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="doneAgents">0</div>
+                    <div class="stat-label">已完成</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="todoTasks">0</div>
+                    <div class="stat-label">待办任务</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalTokens">0</div>
+                    <div class="stat-label">总Token消耗</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalTime">0m</div>
+                    <div class="stat-label">总耗时</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="office-floor">
+            <div class="office-area">
+                <h3 class="area-title">🏢 老板办公室</h3>
+                <div class="boss-office">
+                    <h4 style="color: white; margin-bottom: 15px;">总览中心</h4>
+                    <p style="color: rgba(255,255,255,0.9); line-height: 1.6;">
+                        当前办公室共有 <span id="bossTotalAgents" style="font-weight: bold; font-size: 18px;">0</span> 个AI员工，
+                        <span id="bossActiveAgents" style="font-weight: bold; font-size: 18px; color: #48bb78;">0</span> 个正在工作中，
+                        <span id="bossDoneAgents" style="font-weight: bold; font-size: 18px; color: #a0aec0;">0</span> 个已完成任务。
+                    </p>
+                </div>
+            </div>
+
+            <div class="office-area">
+                <h3 class="area-title">🪑 部门工位区</h3>
+                <div class="workstations" id="workstations">
+                    <div class="loading">正在加载员工工位信息...</div>
+                </div>
+            </div>
+
+            <div class="office-area">
+                <h3 class="area-title">🛋️ 休息区 & 🏃 健身区</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div class="relaxation-area">
+                        <div class="area-icon">🛋️</div>
+                        <h4 style="color: #2d3748; margin-bottom: 15px;">休息区</h4>
+                        <p style="color: #4a5568; line-height: 1.6;">
+                            这里是AI员工放松的地方。当任务完成后，他们会来这里休息，准备下一个挑战。
+                        </p>
+                    </div>
+                    <div class="fitness-area">
+                        <div class="area-icon">🏃</div>
+                        <h4 style="color: #2d3748; margin-bottom: 15px;">健身区</h4>
+                        <p style="color: #4a5568; line-height: 1.6;">
+                            AI员工在这里保持最佳状态。健康的身体（系统）是高效工作的基础。
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="office-area">
+                <h3 class="area-title">📋 大厅任务看板</h3>
+                <div class="kanban-board" id="kanbanBoard">
+                    <div class="kanban-column">
+                        <div class="kanban-header todo-header">待办 ToDo</div>
+                        <div id="todoList"></div>
+                    </div>
+                    <div class="kanban-column">
+                        <div class="kanban-header doing-header">进行中 Doing</div>
+                        <div id="doingList"></div>
+                    </div>
+                    <div class="kanban-column">
+                        <div class="kanban-header done-header">完成 Done</div>
+                        <div id="doneList"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <button class="refresh-btn" onclick="refreshData()" title="刷新数据">🔄</button>
+
+    <script src="./office-visual.js"></script>
+</body>
+</html>

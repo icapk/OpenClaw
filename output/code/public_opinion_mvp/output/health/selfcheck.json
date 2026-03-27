@@ -1,0 +1,40 @@
+{
+  "ok": true,
+  "checks": [
+    {
+      "path": "output/alerts/events_alerts.json",
+      "exists": true,
+      "size": 12132
+    },
+    {
+      "path": "output/timeline/events_timeline.json",
+      "exists": true,
+      "size": 15852
+    },
+    {
+      "path": "output/briefs/event_brief_5w1h.md",
+      "exists": true,
+      "size": 891
+    },
+    {
+      "path": "output/reports/retro_24h.md",
+      "exists": true,
+      "size": 1408
+    },
+    {
+      "path": "output/reports/weekly_summary.md",
+      "exists": true,
+      "size": 713
+    },
+    {
+      "path": "output/dashboard/dashboard_data.json",
+      "exists": true,
+      "size": 20235
+    },
+    {
+      "path": "web/index.html",
+      "exists": true,
+      "size": 5284
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "generatedAt": "2026-03-17T14:26:15.331Z",
+  "source": "tasks/in_progress realtime aggregation (+completed fallback for PM/Tester)",
+  "summary": {
+    "totalAgents": 11,
+    "activeAgents": 2,
+    "doneAgents": 9,
+    "todoItems": 2,
+    "totalDurationSec": 0,
+    "totalTokens": 0
+  },
+  "pm": {
+    "id": "product",
+    "name": "产品经理",
+    "department": "产品",
+    "status": "active",
+    "currentTask": "两项比赛新增项目机会评估_并行派发",
+    "todoCount": 1,
+    "recentDone": "-",
+    "durationSec": 0,
+    "tokenUsed": 0,
+    "tasks": [
+      {
+        "title": "两项比赛新增项目机会评估_并行派发",
+        "status": "doing",
+        "durationSec": 0,
+        "tokens": 0
+      }
+    ]
+  },
+  "tester": {
+    "id": "tester",
+    "name": "测试工程师",
+    "department": "测试",
+    "status": "active",
+    "currentTask": "异常复盘与防复发",
+    "todoCount": 1,
+    "recentDone": "-",
+    "durationSec": 0,
+    "tokenUsed": 0,
+    "tasks": [
+      {
+        "title": "异常复盘与防复发",
+        "status": "doing",
+        "durationSec": 0,
+        "tokens": 0
+      }
+    ]
+  },
+  "doingOwners": [
+    "测试工程师",
+    "产品经理"
+  ],
+  "doingCount": 2,
+  "activeAgents": 2
+}

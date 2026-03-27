@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/runpy.py", line 197, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/py::ffff:127.0.0.1 - - [16/Mar/2026 07:13:52] "GET / HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [16/Mar/2026 07:14:42] "GET /?open_in_browser=true HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [16/Mar/2026 07:14:42] "GET /data/dashboard_data.json HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [16/Mar/2026 07:17:39] "GET /?open_in_browser=true HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [16/Mar/2026 07:17:39] "GET /data/dashboard_data.json HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [16/Mar/2026 07:18:29] "GET / HTTP/1.1" 200 -
+::ffff:127.0.0.1 - - [16/Mar/2026 07:18:29] code 404, message File not found
+::ffff:127.0.0.1 - - [16/Mar/2026 07:18:29] "GET /favicon.ico HTTP/1.1" 404 -
+::ffff:127.0.0.1 - - [16/Mar/2026 09:48:17] "GET /?open_in_browser=true HTTP/1.1" 304 -
+::ffff:127.0.0.1 - - [16/Mar/2026 09:48:17] code 404, message File not found
+::ffff:127.0.0.1 - - [16/Mar/2026 09:48:17] "GET /favicon.ico HTTP/1.1" 404 -
+::ffff:127.0.0.1 - - [16/Mar/2026 09:48:17] "GET /data/dashboard_data.json HTTP/1.1" 304 -
+Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/socketserver.py", line 466, in server_bind
+    self.socket.bind(self.server_address)
+OSError: [Errno 48] Address already in use

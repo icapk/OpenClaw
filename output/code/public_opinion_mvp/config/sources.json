@@ -1,0 +1,39 @@
+{
+  "sources": [
+    {
+      "name": "sample_jsonl",
+      "type": "sample",
+      "enabled": true,
+      "path": "data/sample_input/public_posts.jsonl"
+    },
+    {
+      "name": "local_rss_feed",
+      "type": "rss",
+      "enabled": true,
+      "url": "file:///Users/a1/.openclaw/workspace/output/code/public_opinion_mvp/data/sample_input/sample_feed.xml",
+      "channel": "rss"
+    },
+    {
+      "name": "http_json_example",
+      "type": "http_json",
+      "enabled": false,
+      "url": "https://example.com/public_opinion.json",
+      "channel": "http"
+    }
+  ],
+  "fetch": {
+    "retries": 2,
+    "timeout_sec": 10,
+    "retry_interval_sec": 1,
+    "fallback_to_sample": true
+  },
+  "cleaning": {
+    "min_text_len": 6,
+    "blocked_patterns": [
+      "^转发$",
+      "^哈哈+$",
+      "抽奖",
+      "广告"
+    ]
+  }
+}

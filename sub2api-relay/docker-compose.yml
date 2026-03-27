@@ -1,0 +1,54 @@
+services:
+  # Sub2Api 核心服务 - API 中转
+  sub2api:
+    image: muxing/sub2api:latest
+    container_name: sub2api_core
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      # 通过 WARP SOCKS5 代理转发请求，避免 IP 被风控
+      - HTTP_PROXY=${WARP_PROXY}
+      - HTTPS_PROXY=${WARP_PROXY}
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - sub2api_net
+
+  # Redis 缓存和队列
+  redis:
+    image: redis:6.2-alpine
+    container_name: sub2api_redis
+    restart: always
+    command: redis-server --requirepass ${REDIS_PASSWORD} --appendonly yes
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - sub2api_net
+
+  # Cloudflare Tunnel - 安全暴露服务到公网
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared_tunnel
+    restart: always
+    network_mode: "host"
+    command: tunnel run
+    environment:
+      - TUNNEL_TOKEN=${TUNNEL_TOKEN}
+
+volumes:
+  redis_data:
+    driver: local
+
+networks:
+  sub2api_net:
+    driver: bridge

@@ -1,0 +1,21 @@
+{
+  "keywords": ["品牌A", "产品X", "宕机", "泄露", "涨价", "投诉", "维权", "异常登录"],
+  "sentiment": {
+    "negative_words": ["崩溃", "无法", "失败", "愤怒", "差评", "投诉", "维权", "泄露", "宕机", "退款", "背刺"],
+    "positive_words": ["恢复", "解决", "改进", "点赞", "稳定", "修复"]
+  },
+  "thresholds": {
+    "negative_ratio": 0.38,
+    "surge_multiplier": 1.8,
+    "min_mentions_for_alert": 3
+  },
+  "escalation": {
+    "enabled": true,
+    "timeout_minutes": 20,
+    "next_level": {
+      "P3": "P2",
+      "P2": "P1",
+      "P1": "P1"
+    }
+  }
+}

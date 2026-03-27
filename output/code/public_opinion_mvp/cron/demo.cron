@@ -1,0 +1,2 @@
+# 每30分钟执行一次舆情工作流（示例）
+*/30 * * * * cd /Users/a1/.openclaw/workspace/output/code/public_opinion_mvp && ./run_demo.sh >> output/cron.log 2>&1

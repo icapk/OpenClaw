@@ -1,0 +1,20 @@
+[
+  {
+    "title": "整理Q2招聘需求",
+    "owner": "HRAgent-小禾",
+    "priority": "P1",
+    "status": "todo"
+  },
+  {
+    "title": "修复看板刷新按钮样式",
+    "owner": "研发Agent-小川",
+    "priority": "P2",
+    "status": "doing"
+  },
+  {
+    "title": "输出本周运营复盘",
+    "owner": "运营Agent-小舟",
+    "priority": "P1",
+    "status": "done"
+  }
+]

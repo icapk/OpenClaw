@@ -1,0 +1,111 @@
+{
+  "generatedAt": "2026-03-21T10:59:45.039322+08:00",
+  "source": "openclaw-cli-or-local-snapshot",
+  "summary": {
+    "totalAgents": 3,
+    "activeAgents": 2,
+    "doneAgents": 1,
+    "todoItems": 1,
+    "doingItems": 1,
+    "doneItems": 1,
+    "totalTokens": 18652,
+    "totalDurationSec": 3100.0
+  },
+  "agents": [
+    {
+      "id": "agent-dev-1",
+      "name": "研发Agent-小川",
+      "department": "研发",
+      "status": "active",
+      "currentTask": "实现看板前端交互",
+      "todoCount": 2,
+      "recentDone": "完成状态卡片组件",
+      "durationSec": 1820,
+      "tokenUsed": 12450,
+      "tasks": [
+        {
+          "title": "实现看板前端交互",
+          "status": "active",
+          "durationSec": 1820,
+          "tokens": 12450
+        },
+        {
+          "title": "完成状态卡片组件",
+          "status": "done",
+          "durationSec": 960,
+          "tokens": 5320
+        }
+      ]
+    },
+    {
+      "id": "agent-ops-1",
+      "name": "运营Agent-小舟",
+      "department": "运营",
+      "status": "done",
+      "currentTask": "（空闲）",
+      "todoCount": 1,
+      "recentDone": "整理周报数据",
+      "durationSec": 760,
+      "tokenUsed": 4012,
+      "tasks": [
+        {
+          "title": "整理周报数据",
+          "status": "done",
+          "durationSec": 760,
+          "tokens": 4012
+        }
+      ]
+    },
+    {
+      "id": "agent-hr-1",
+      "name": "HRAgent-小禾",
+      "department": "HR",
+      "status": "active",
+      "currentTask": "筛选候选人简历",
+      "todoCount": 3,
+      "recentDone": "更新面试安排",
+      "durationSec": 520,
+      "tokenUsed": 2190,
+      "tasks": [
+        {
+          "title": "筛选候选人简历",
+          "status": "active",
+          "durationSec": 520,
+          "tokens": 2190
+        },
+        {
+          "title": "更新面试安排",
+          "status": "done",
+          "durationSec": 430,
+          "tokens": 1730
+        }
+      ]
+    }
+  ],
+  "taskBoard": {
+    "todo": [
+      {
+        "title": "整理Q2招聘需求",
+        "owner": "HRAgent-小禾",
+        "priority": "P1",
+        "status": "todo"
+      }
+    ],
+    "doing": [
+      {
+        "title": "修复看板刷新按钮样式",
+        "owner": "研发Agent-小川",
+        "priority": "P2",
+        "status": "doing"
+      }
+    ],
+    "done": [
+      {
+        "title": "输出本周运营复盘",
+        "owner": "运营Agent-小舟",
+        "priority": "P1",
+        "status": "done"
+      }
+    ]
+  }
+}
