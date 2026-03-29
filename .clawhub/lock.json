@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "skills": {
+    "social-media-scheduler": {
+      "version": "1.0.0",
+      "installedAt": 1774660024026
+    },
+    "social-media-agent": {
+      "version": "1.0.0",
+      "installedAt": 1774660154526
+    },
+    "product-manager": {
+      "version": "1.0.0",
+      "installedAt": 1774662187645
+    }
+  }
+}
