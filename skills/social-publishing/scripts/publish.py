@@ -2,6 +2,7 @@
 """
 小红书 & 公众号 浏览器自动化发布脚本
 通过 Playwright 控制浏览器完成内容发布
+版本：v1.1（修复 Playwright 1.50+ API兼容性）
 """
 import sys
 import os
@@ -35,7 +36,7 @@ def inject_image_via_datatransfer(page, image_path):
         console.error('未找到 file input');
     }} else {{
         const bstr = atob('{b64_data}');
-        const n = bstr.length;
+        let n = bstr.length;
         const u8arr = new Uint8Array(n);
         while (n--) {{
             u8arr[n] = bstr.charCodeAt(n);
@@ -61,9 +62,28 @@ def publish_xiaohongshu(title, content, image_path, tags=None):
 
     tags = tags or []
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False, user_data_dir=os.path.expanduser("~/.config/xhspipeline"))
-        context = browser.contexts[0]
-        page = context.pages[0] if context.pages else context.new_page()
+        # 小红书使用 Firefox + 已保存的登录状态
+        import os as _os
+        auth_state = "/tmp/xhs_firefox_auth.json"
+        if _os.path.exists(auth_state):
+            # 使用 Firefox + 已保存登录态
+            firefox_profile = _os.path.expanduser("~/.mozilla/firefox/publish_profile")
+            _os.makedirs(firefox_profile, exist_ok=True)
+            context = p.firefox.launch_persistent_context(firefox_profile, headless=False)
+            page = context.pages[0] if context.pages else context.new_page()
+        else:
+            # Fallback: 尝试 Chrome
+            import platform
+            system = platform.system()
+            if system == "Darwin":
+                chrome_base = _os.path.expanduser("~/Library/Application Support/Google/Chrome")
+            elif system == "Windows":
+                chrome_base = _os.path.join(_os.environ.get("LOCALAPPDATA", ""), "Google", "Chrome", "User Data")
+            else:
+                chrome_base = _os.path.expanduser("~/.config/google-chrome")
+            user_data_path = _os.path.join(chrome_base, "Default")
+            context = p.chromium.launch_persistent_context(user_data_path, headless=False)
+            page = context.pages[0] if context.pages else context.new_page()
 
         try:
             # 打开发布页面
@@ -73,7 +93,7 @@ def publish_xiaohongshu(title, content, image_path, tags=None):
             # 检查是否需要登录
             if "login" in page.url.lower():
                 print("需要登录！请先在浏览器中登录小红书")
-                browser.contexts[0].pages[0].screenshot(path="/tmp/xhs_login.png")
+                page.screenshot(path="/tmp/xhs_login.png")
                 print("登录截图已保存到 /tmp/xhs_login.png")
                 return {"status": "need_login", "screenshot": "/tmp/xhs_login.png"}
 
@@ -103,8 +123,18 @@ def publish_xiaohongshu(title, content, image_path, tags=None):
                     # 按回车确认
                     tag_input.press("Enter")
 
-            # 点击发布按钮
-            publish_btn = page.query_selector('button:has-text("发布"), button:has-text("发布笔记")')
+            # 点击发布按钮（尝试多种选择器）
+            publish_btn = None
+            for selector in [
+                'button:has-text("发布")',
+                'button:has-text("发布笔记")',
+                '.publish-btn',
+                '[class*="publish"] button',
+            ]:
+                publish_btn = page.query_selector(selector)
+                if publish_btn:
+                    break
+
             if publish_btn:
                 publish_btn.click()
                 time.sleep(2)
@@ -112,15 +142,17 @@ def publish_xiaohongshu(title, content, image_path, tags=None):
             else:
                 print("未找到发布按钮，截图保存...")
                 page.screenshot(path="/tmp/xhs_error.png")
+                # 保存页面HTML用于调试
+                with open("/tmp/xhs_page.html", "w", encoding="utf-8") as f:
+                    f.write(page.content())
+                print("页面HTML已保存到 /tmp/xhs_page.html")
 
             return {"status": "published"}
 
         except Exception as e:
             print(f"发布失败: {e}")
+            page.screenshot(path="/tmp/xhs_error.png")
             return {"status": "error", "message": str(e)}
-        finally:
-            pass
-            # browser.close()
 
 def publish_wechat_gzh(title, content, image_path, account="default"):
     """
@@ -130,6 +162,7 @@ def publish_wechat_gzh(title, content, image_path, account="default"):
     from playwright.sync_api import sync_playwright
 
     with sync_playwright() as p:
+        # 公众号不维护持久化登录状态，每次重新登录
         browser = p.chromium.launch(headless=False)
         context = browser.contexts[0]
         page = context.pages[0] if context.pages else context.new_page()
@@ -171,17 +204,19 @@ def publish_wechat_gzh(title, content, image_path, account="default"):
             if save_btn:
                 save_btn.click()
                 time.sleep(1)
+                print("内容已保存")
 
             # 点击群发 (如果需要)
             send_btn = page.query_selector('button:has-text("群发")')
             if send_btn:
-                print("内容已保存，点击群发即可发布")
+                print("内容已就绪，点击群发即可发布")
                 send_btn.screenshot(path="/tmp/wx_ready.png")
 
             return {"status": "ready_to_publish"}
 
         except Exception as e:
             print(f"发布失败: {e}")
+            page.screenshot(path="/tmp/wx_error.png")
             return {"status": "error", "message": str(e)}
 
 if __name__ == "__main__":

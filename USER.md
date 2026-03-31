@@ -1,7 +1,7 @@
 # USER.md - About Your Human
 
-- **Name:** 木白
-- **What to call them:** 主人
+- **Name:** Michael（木白）
+- **What to call them:** 主人（Michael）
 - **Pronouns:** (待确认)
 - **Timezone:** Asia/Shanghai (GMT+8)
 - **Notes:**
