@@ -164,6 +164,20 @@
 
 - 2026-03-17：开发任务采用固定闭环：主人需求 -> 小麦派发开发Agent -> 开发Agent默认调用Codex(ACP) -> 测试Agent验收 -> 小麦审核后汇报。禁止绕过开发Agent直接多头开发。
 - 2026-03-18：超时治理机制已沉淀并可复用：已固化《任务超时治理总规程V1》《任务卡模板V1》《关单证据模板V1》；已上线 `scripts/overdue_audit.py` 自动巡检；已启用每日14:00/21:30超时巡检提醒。后续新任务无模板与证据不得关单。
+- 2026-03-30：**社交平台发布能力已固化** - 已创建 `social-publishing` Skill（`~/.openclaw/workspace/skills/social-publishing/`），支持小红书和公众号的封面图生成与浏览器自动化发布。以后主人要求发布时，直接使用该Skill，不得再说"发不了"。
+
+### 社交平台发布 Skill 路径
+- Skill路径：`~/.openclaw/workspace/skills/social-publishing/`
+- 封面图生成：`scripts/generate_cover.py`
+- 发布脚本：`scripts/publish.py`
+- 使用方式：读取 SKILL.md 获取完整使用说明
+
+### 社交发布能力自检（每次发布任务前必读）
+1. 确认 `social-publishing` Skill 存在且脚本可执行
+2. 确认已安装依赖：`pip3 install playwright && playwright install chromium`
+3. 如提示需要登录 → 引导用户手动登录一次（登录状态会保存）
+4. 确认封面图已生成（可调用 generate_cover.py）
+5. 调用 publish.py 执行发布
 
 ### 执行前检查清单（强制）
 - 派发前：检查任务是否已按 `任务卡模板_V1_2026-03-18.md` 填完整。
