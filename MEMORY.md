@@ -222,3 +222,46 @@ _此文件会在每次重要事件后更新。_
   - 安全问题 → 必须由审核/安全Agent审计
 - 小麦只负责：任务分发、进度跟进、结果审核与转交。
 - 若再次越权亲自分析，视为严重违纪。
+
+## 待完成功能（2026-04-02 主人命令全功能实现）
+
+### 核心 Harness（进行中）
+- [ ] Harness 真正接入 Electron main 进程
+- [ ] autonomous-runner 自主循环
+- [ ] QueueController 任务队列
+- [ ] Commentary 实时推送
+
+### 记忆系统（进行中）
+- [ ] 记忆系统 V2 集成
+- [ ] Session 开始召回
+- [ ] Session 结束保存
+
+### 并行 Agent（P0 待处理）
+- [ ] 多 Agent 同时工作
+- [ ] Task Tool 子任务分发
+
+### PM Skills
+- [ ] PRD 评审
+- [ ] 需求分析
+- [ ] 优先级排序
+- [ ] 会议纪要
+
+### 三省六部工作流
+- [ ] 中书省/门下省/尚书省
+- [ ] 工作流调度
+
+### 飞书集成
+- [ ] Webhook 接收
+- [ ] 消息推送
+- [ ] Commentary 推送
+
+### 代码审查修复（P0）
+- [ ] 修复 createHarnessIpcBridge
+- [ ] 添加并行 agent 支持
+- [ ] 改进 memory recall
+
+### 代码审查修复（P1）
+- [ ] 提取重复的 isTaskComplete
+- [ ] 改进错误处理
+- [ ] 添加类型定义
+
